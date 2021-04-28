@@ -17,6 +17,7 @@ static const struct eprintf_flag_st flags_st[NB_EPRINTF_FLAGS] = {
     {'X',     0,    &eprintf_local_hex_max},
     {'p',     0,    &eprintf_local_ptr},
     {'f',   'F',    &eprintf_local_double},
+    {'m',   'M',    &eprintf_local_mem}
 };
 
 static ssize_t eprintf_parse_flag(ebuff_t **buffer,

@@ -37,7 +37,7 @@ static void eprintf_local_uint_padding_right(ebuff_t **buff,
 
 void eprintf_local_uint(ebuff_t **buff, va_list *ap, eprintf_mod_t *mod)
 {
-    u64_t value = get_signed_arg(ap, mod->len);
+    u64_t value = get_unsigned_arg(ap, mod->len);
     i64_t nb_len = eunblen(value);
 
     SET_PRECISION(mod->modflag.precision, 0);

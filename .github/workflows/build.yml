@@ -1,0 +1,34 @@
+name: Build
+
+on:
+    push:
+        branches:
+        - starting_compil
+        - starting_parser
+        - starting_virtual
+        - dev
+        - main
+        - master
+    pull_request:
+jobs:
+    build:
+        runs-on: ubuntu-20.04
+        container: docker://helife/epilight
+        steps:
+        - uses: actions/checkout@v2
+        - name: Build
+          shell: bash
+          run: "make 2>&1 | tee build_output"
+        - name: Send notification
+          shell: bash
+          if: ${{ github.event_name == 'push' && always() }}
+          run: |
+               checkout=$(git log -1 --pretty=format:"*Checkout:%d: %h %s*")
+               errors=$(bash -c 'cat build_output | grep "error: " -A 2 | python3 -c "import json,sys; print(json.dumps(sys.stdin.read())[1:-1])"')
+               if [[ -z $errors ]]; then
+                  errors="No errors."
+               fi
+               errors_count=$(bash -c 'cat build_output | grep "error: " | wc -l')
+               echo '{"content": "**'$GITHUB_REPOSITORY'**\n'$checkout'\nCompilation: '$errors_count' errors.\n```\n'$errors'\n```"}' > notification_data
+               cat notification_data
+          curl --data "$(cat notification_data)" --header "Content-Type: application/json" https://discordapp.com/api/webhooks/836977664685375508/lb0GRPEWYYWLxLMbnC-zlxLoeSBZGo1J2Xw87FxdjoPCsltalMNCgvrCZRPAmIAvGmMl

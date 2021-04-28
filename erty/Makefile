@@ -188,6 +188,7 @@ SRC_EPRINTF_LCL	=	$(EPRINTF_LCL)/eprintf_append_padding.c 		\
 					$(EPRINTF_LCL)/eprintf_local_hex.c 				\
 					$(EPRINTF_LCL)/eprintf_local_ptr.c 				\
 					$(EPRINTF_LCL)/eprintf_local_double.c 			\
+					$(EPRINTF_LCL)/eprintf_local_mem.c 			\
 					$(EPRINTF_LCL)/get_conversion_padding.c
 
 SRC_EPRINTF_MSC =	./eprintf/misc/check_eprintf_format.c 		\
@@ -220,6 +221,9 @@ SRC_SSTR		=	./esstring/init.c 				\
 
 SRC_EREGEX 		=	./eregex/eregex.c 				\
 					./eregex/eregex_utilities.c
+
+SRC_GETOPT 		=	./getopt/my_getopt.c 			\
+					./getopt/my_getopt_loader.c
 
 SRC_ESTDIO		=	$(SRC_ESTDOUT) 							\
 					$(SRC_ESTDERR)
@@ -266,7 +270,8 @@ SRC				=	$(SRC_EWRITE) 							\
 					$(SRC_STDIO) 							\
 					$(SRC_CSTRING) 							\
 					$(SRC_SSTR) 							\
-					$(SRC_EREGEX)
+					$(SRC_EREGEX) 							\
+					$(SRC_GETOPT)
 
 TEST_ECTYPE_IS 	=	./tests/ectypes/is/test_eis_alpha.c 	\
 					./tests/ectypes/is/test_eis_lower.c 	\

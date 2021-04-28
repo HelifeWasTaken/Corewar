@@ -163,6 +163,8 @@
         #undef CHECK_EPRINTF_FORMAT
     #endif
 
+    #undef CHECK_FORMAT_WITH_GNU_C
+
     #define EPRINTF_SUCCESS         (signed int)0
     #define EPRINTF_FAILURE         (signed int)-1
     #define EPRINTF_ERROR_FORMAT    (signed int)-2
@@ -797,6 +799,20 @@
 
     ////////////////////////////////////////////////////////////
     ///
+    /// \brief Write the memory of the arg passed as an argument
+    ///
+    /// \param ap variadic list
+    ///
+    /// \param mod structure containing padding info
+    ///
+    /// \param buff the buffer to append to
+    ///
+    ////////////////////////////////////////////////////////////
+
+    void eprintf_local_mem(ebuff_t **buff, va_list *ap, eprintf_mod_t *mod);
+
+    ////////////////////////////////////////////////////////////
+    ///
     /// \brief Get unsigned value trough union and returns it
     ///
     /// \param ap variadic list
@@ -843,7 +859,7 @@
     ///
     ////////////////////////////////////////////////////////////
 
-    #define NB_EPRINTF_FLAGS    9
+    #define NB_EPRINTF_FLAGS    10
 
     //  ___  ____
     //  |  \/  (_)
