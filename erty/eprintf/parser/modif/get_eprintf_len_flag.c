@@ -9,12 +9,12 @@
 #include <erty/eprintf.h>
 
 static const char known_flag[10][2] = {
-    "hh", "h", "l", "ll", "q",
+    "hh", "h", "ll", "l", "q",
     "L", "j", "z", "Z", "t"
 };
 
 static const u_int8_t len_flags[10] = {
-    2, 1, 1, 2, 1,
+    2, 1, 2, 1, 1,
     1, 1, 1, 1, 1
 };
 
