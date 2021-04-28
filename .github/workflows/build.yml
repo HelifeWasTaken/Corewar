@@ -3,6 +3,9 @@ name: Build
 on:
     push:
         branches:
+        - starting_compil
+        - starting_parser
+        - starting_virtual
         - dev
         - main
         - master
