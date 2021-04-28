@@ -5,13 +5,6 @@
 ## Makefile
 ##
 
-GREEN 			=	\x1b[32;01m
-RED 			=	\x1b[31;01m
-YELLOW 			=	\x1b[33;01m
-WHITE 			=	\x1b[00;00m
-CYAN 			=	\x1b[34;01m
-DEFAULT 		= 	\x1b[36;01m
-
 SHELL 			=	bash
 
 CC				=	gcc
@@ -337,12 +330,12 @@ $(NAME): info ## Call build_lib
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@printf "$(GREEN)[$(YELLOW)Linked$(GREEN)]$(WHITE) % 43s\n$(DEFAULT)" $@ | tr ' ' '.'
+	@printf "[Linked] % 43s\n" $@ | tr ' ' '.'
 
 build_lib: $(OBJ) ## Build LibErty
 	$(AR) $(NAME) $(OBJ)
-	@printf "$(GREEN)[$(YELLOW)Linked$(GREEN)]$(WHITE) % 43s$(DEFAULT)\n" $(NAME) | tr ' ' '.'
-	@printf "$(GREEN)[$(CYAN)Linked all Liberty files$(GREEN)]\n$(WHITE)"
+	@printf "[Linked] % 43s\n" $(NAME) | tr ' ' '.'
+	@printf "[Linked all Liberty files]\n"
 
 copy: 	## Copy includes
 	@mkdir -p ../include
@@ -371,10 +364,10 @@ info:
 	@printf "███████╗██║██████╔╝███████╗██║  ██║   ██║      ██║\n"
 	@printf "╚══════╝╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝      ╚═╝\n"
 	@printf "%50s\n" " " | tr ' ' '-'
-	@printf "$(GREEN)[$(YELLOW)Info$(GREEN)] $(WHITE)Linking objects with:"
-	@printf "\n\t$(CYAN)CC        $(WHITE)= $(GREEN)$(CC)"
-	@printf "\n\t$(CYAN)CFLAGS    $(WHITE)= $(GREEN)$(CFLAGS)$(DEFAULT)"
-	@printf "\n\t$(CYAN)AR        $(WHITE)= $(GREEN)$(AR)$(DEFAULT)"
-	@printf "\n\t$(CYAN)SHELL     $(WHITE)= $(GREEN)$(SHELL)$(DEFAULT)\n"
+	@printf "[Info] Linking objects with:"
+	@printf "\n\tCC        = $(CC)"
+	@printf "\n\tCFLAGS    = $(CFLAGS)"
+	@printf "\n\tAR        = $(AR)"
+	@printf "\n\tSHELL     = $(SHELL)\n"
 
 .PHONY:		all build_lib copy clean fclean re

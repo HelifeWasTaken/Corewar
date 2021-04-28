@@ -5,13 +5,6 @@
 ## Makefile
 ##
 
-GREEN 			=	\x1b[32;01m
-RED 			=	\x1b[31;01m
-YELLOW 			=	\x1b[33;01m
-WHITE 			=	\x1b[00;00m
-CYAN 			=	\x1b[34;01m
-DEFAULT 		= 	\x1b[36;01m
-
 SHELL 			=	bash
 
 CC				=	gcc
@@ -47,25 +40,28 @@ OBJ 		=	$(MAIN:.c=.o) \
 
 NAME 		=	corewar
 
-all:		$(NAME)	## Put whatever you want here (default : Call build_lib)
+all:
+	@rm -f $(NAME)
+	@make -j -C . $(NAME) --silent
 
-$(NAME): info
+$(NAME):
+	@make -j -C . info --silent
 	@make -j -C ../erty all --silent
 	@make -j -C . build --silent
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@printf "$(GREEN)[$(YELLOW)Linked$(GREEN)]$(WHITE) % 43s\n$(DEFAULT)" $@ | tr ' ' '.'
+	@printf "[Linked] % 43s\n" $@ | tr ' ' '.'
 
-build: $(OBJ) ## Build Mysh
+build: $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) -o $(NAME)
-	@printf "$(GREEN)[$(YELLOW)Linked$(GREEN)]$(WHITE) % 43s$(DEFAULT)\n" $(NAME) | tr ' ' '.'
-	@printf "$(GREEN)[$(CYAN)Linked all mysh files$(GREEN)]\n$(WHITE)"
+	@printf "[Linked] % 43s\n" $(NAME) | tr ' ' '.'
+	@printf "[Linked all vm files]\n"
 
 clean:
 	@make -j -C ../erty clean --silent
 	@rm -f $(OBJ) $(NAME)
-	@printf "\e[1;32mFinished removing objects\e[0m\n"
+	@printf "Finished removing objects\n"
 	@find . -type f \( -name "\#*\#" -o -name "*.swp" \) -delete
 
 fclean:		clean
@@ -73,14 +69,20 @@ fclean:		clean
 	@find . -type f \( -name "*~" -o -name "*.a" -o -name "vgcore.*" \) -delete
 
 re:
-	make -j -C . fclean --silent
-	make -j -C . all --silent
+	@make -j -C . fclean --silent
+	@make -j -C . all --silent
 
 info:
-	@printf "$(GREEN)[$(YELLOW)Info$(GREEN)] $(WHITE)Linking objects with:"
-	@printf "\n\t$(CYAN)CC        $(WHITE)= $(GREEN)$(CC)"
-	@printf "\n\t$(CYAN)CFLAGS    $(WHITE)= $(GREEN)$(CFLAGS)$(DEFAULT)"
-	@printf "\n\t$(CYAN)AR        $(WHITE)= $(GREEN)$(AR)$(DEFAULT)"
-	@printf "\n\t$(CYAN)SHELL     $(WHITE)= $(GREEN)$(SHELL)$(DEFAULT)\n"
+	@printf  "██████╗ ██████╗  ██████╗ ███████╗██╗    ██╗ █████╗ ██████╗  ██╗   ██╗███╗   ███╗\n"
+	@printf  "██╔════╝██╔═══██╗██╔══██╗██╔════╝██║    ██║██╔══██╗██╔══██╗ ██║   ██║████╗ ████║\n"
+	@printf  "██║     ██║   ██║██████╔╝█████╗  ██║ █╗ ██║███████║██████╔╝ ██║   ██║██╔████╔██║\n"
+	@printf  "██║     ██║   ██║██╔══██╗██╔══╝  ██║███╗██║██╔══██║██╔══██╗ ╚██╗ ██╔╝██║╚██╔╝██║\n"
+	@printf  "██████╗╚██████╔╝ ██║  ██║███████╗╚███╔███╔╝██║  ██║██║  ██║  ╚████╔╝ ██║ ╚═╝ ██║\n"
+	@printf  "╚═════╝ ╚═════╝  ╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═══╝  ╚═╝     ╚═╝\n"
+	@printf "[Info] Linking objects with:"
+	@printf "\n\tCC        = $(CC)"
+	@printf "\n\tCFLAGS    = $(CFLAGS)"
+	@printf "\n\tAR        = $(AR)"
+	@printf "\n\tSHELL     = $(SHELL)\n"
 
 .PHONY:		all build_lib copy clean fclean re
