@@ -188,6 +188,7 @@ SRC_EPRINTF_LCL	=	$(EPRINTF_LCL)/eprintf_append_padding.c 		\
 					$(EPRINTF_LCL)/eprintf_local_hex.c 				\
 					$(EPRINTF_LCL)/eprintf_local_ptr.c 				\
 					$(EPRINTF_LCL)/eprintf_local_double.c 			\
+					$(EPRINTF_LCL)/eprintf_local_mem.c 			\
 					$(EPRINTF_LCL)/get_conversion_padding.c
 
 SRC_EPRINTF_MSC =	./eprintf/misc/check_eprintf_format.c 		\

@@ -262,9 +262,9 @@
     ////////////////////////////////////////////////////////////
 
     #ifdef EBUFF_PRINTF_CHUNK
-        #define BUFF_CHUNK              1024
+        #define BUFF_CHUNK              4096
     #else
-        #define BUFF_CHUNK              16
+        #define BUFF_CHUNK              1024
     #endif
 
 #endif /* !__LIBERTY__EBUFFER__H__ */

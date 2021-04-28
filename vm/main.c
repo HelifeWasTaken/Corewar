@@ -17,8 +17,10 @@ bool load_args(my_getopt_t *my_args, char **argv)
     return (my_getopt(my_args, argv));
 }
 
-int main(int ac UNUSED, char **av)
+int main(int ac UNUSED, char **av UNUSED)
 {
+    int n = 5;
+    /*
     my_getopt_t my_args = {0};
 
     if (load_args(&my_args, av) == false) {
@@ -28,6 +30,8 @@ int main(int ac UNUSED, char **av)
     }
     display_opts(&my_args);
     destroy_opts(&my_args);
+    */
+    eprintf("%m", &n, sizeof(int));
     eprintf_free_buff();
     return (0);
 }
