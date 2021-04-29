@@ -33,7 +33,8 @@ endif
 
 MAIN 		=	main.c
 
-SRC 		=
+SRC 		= 	./src/vm_init.c \
+				./src/champion_loader.c
 
 OBJ 		=	$(MAIN:.c=.o) \
 				$(SRC:.c=.o)

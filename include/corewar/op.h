@@ -8,50 +8,55 @@
 #ifndef _COREWAR_OP_H_
     #define _COREWAR_OP_H_
 
-    #define MEM_SIZE            (6 * 1024)
-    #define IDX_MOD             512
-    #define MAX_ARGS_NUMBER     4
+    #define BYTE char
 
-    #define COMMENT_CHAR        '#'
-    #define LABEL_CHAR          ';'
-    #define DIRECT_CHAR         '%'
-    #define SEPARATOR_CHAR      ','
+    union int_byte {
+        int nb;
+        BYTE s[4];
+    };
 
     #define LABEL_CHARS         "abcdefghijklmnopqrstuvwxyz_0123456789"
-
     #define NAME_CMD_STRING     ".name"
     #define COMMENT_CMD_STRING  ".comment"
 
-    #define REG_NUMBER          16
+    // Mem size is equivalent to 6 * 1024
 
-    #define T_REG               1
-    #define T_DIR               2
-    #define T_IND               4
-
-    #define  T_LAB              8
+    enum {
+        MEM_SIZE = 6144,
+        IDX_MOD = 512,
+        MAX_ARGS_NUMBER = 4,
+        CHAMPION_COUNT_MAX = MAX_ARGS_NUMBER,
+        REG_NUMBER = 16,
+        COMMENT_CHAR = '#',
+        LABEL_CHAR = ';',
+        DIRECT_CHAR = '%',
+        SEPARATOR_CHAR = ',',
+        T_REG = 1,
+        T_DIR = 2,
+        T_IND = 4,
+        T_LAB = 8,
+        IND_SIZE = 2,
+        DIR_SIZE = 4,
+        REG_SIZE = DIR_SIZE,
+        PROG_NAME_LENGTH = 128,
+        COMMENT_LENGTH = 2048,
+        COREWAR_EXEC_MAGIC = 0xea83f3,
+        HEADER_SIZE = PROG_NAME_LENGTH + COMMENT_LENGTH + sizeof(int) * 2 + 2
+    };
 
     typedef struct op_s {
         char *mnemonique;
         char nbr_args;
-        args_type_t type[MAX_ARGS_NUMBER];
-        char code;
+        BYTE type[MAX_ARGS_NUMBER];
+        BYTE code;
         int nbr_cycles;
         char *comment;
     } op_t;
 
-    #define IND_SIZE            2
-    #define DIR_SIZE            4
-    #define REG_SIZE            DIR_SIZE
-
-    #define PROG_NAME_LENGTH    128
-    #define COMMENT_LENGTH      2048
-
-    #define COREWAR_EXEC_MAGIC  0xea83f3
-
     typedef struct header_s {
-        int magic;
+        int  magic;
         char prog_name[PROG_NAME_LENGTH + 1];
-        int prog_size;
+        int  prog_size;
         char comment[COMMENT_LENGTH + 1];
     } header_t;
 
