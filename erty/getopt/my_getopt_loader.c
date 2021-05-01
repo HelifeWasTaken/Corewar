@@ -8,7 +8,7 @@
 #include <erty/getopt.h>
 
 static bool opt_arg_valid(struct my_getopt_args *args, usize_t i,
-    struct my_getopt_parser *parser)
+        struct my_getopt_parser *parser)
 {
     if (args[i].multiple_allowed == false && args[i].is_used == true) {
         efprintf(stderr, "%s: has been used twice!\n",
@@ -16,8 +16,8 @@ static bool opt_arg_valid(struct my_getopt_args *args, usize_t i,
         return (false);
     }
     if (args[i].opt_type != OPT_NO_ARG &&
-            (parser->argv[parser->argv_idx + 1] == NULL ||
-             parser->argv[parser->argv_idx + 1][0] == '-')) {
+        (parser->argv[parser->argv_idx + 1] == NULL ||
+        parser->argv[parser->argv_idx + 1][0] == '-')) {
         efprintf(stderr, "%s: requires an argument\n",
                 parser->argv[parser->argv_idx]);
         return (false);
@@ -26,7 +26,7 @@ static bool opt_arg_valid(struct my_getopt_args *args, usize_t i,
 }
 
 bool opt_load_string(struct my_getopt_args *args, usize_t i,
-    struct my_getopt_parser *parser)
+        struct my_getopt_parser *parser)
 {
     if (opt_arg_valid(args, i, parser) == false)
         return (false);
@@ -41,7 +41,7 @@ bool opt_load_string(struct my_getopt_args *args, usize_t i,
 }
 
 bool opt_load_integer(struct my_getopt_args *args, usize_t i,
-    struct my_getopt_parser *parser)
+        struct my_getopt_parser *parser)
 {
     usize_t i_argv = 0;
 
@@ -63,7 +63,7 @@ bool opt_load_integer(struct my_getopt_args *args, usize_t i,
 }
 
 bool opt_load_none(struct my_getopt_args *args, usize_t i,
-    struct my_getopt_parser *parser)
+        struct my_getopt_parser *parser)
 {
     if (opt_arg_valid(args, i, parser) == false)
         return (false);
