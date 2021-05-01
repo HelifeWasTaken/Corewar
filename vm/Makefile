@@ -34,7 +34,10 @@ endif
 MAIN 		=	main.c
 
 SRC 		= 	./src/vm_init.c \
-				./src/champion_loader.c
+				./src/util/memory_reader.c \
+				./src/champion/champion_loader.c \
+				./src/champion/champion_open.c \
+				./src/champion/write_champion_in_ram.c
 
 OBJ 		=	$(MAIN:.c=.o) \
 				$(SRC:.c=.o)

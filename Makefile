@@ -39,15 +39,12 @@ all: build		## Put whatever you want here (default : Call build_lib)
 
 build:
 	@make -j -C ./vm/ all --silent
-	@make -j -C ./erty all --silent
 
 clean:
-	@make -j -C ./erty clean --silent
 	@make -j -C ./vm/ clean  --silent
 	@find . -type f \( -name "\#*\#" -o -name "*.swp" \) -delete
 
 fclean:		clean
-	@make -j -C ./erty fclean --silent
 	@make -j -C ./vm fclean --silent
 	@find . -type f \( -name "*~" -o -name "*.a" -o -name "vgcore.*" \) -delete
 

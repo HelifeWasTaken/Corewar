@@ -8,6 +8,8 @@
 #ifndef _COREWAR_OP_H_
     #define _COREWAR_OP_H_
 
+    #include <stdint.h>
+
     #define BYTE char
 
     union int_byte {
@@ -41,6 +43,7 @@
         PROG_NAME_LENGTH = 128,
         COMMENT_LENGTH = 2048,
         COREWAR_EXEC_MAGIC = 0xea83f3,
+        MAGIC_NUMBER = COREWAR_EXEC_MAGIC,
         HEADER_SIZE = PROG_NAME_LENGTH + COMMENT_LENGTH + sizeof(int) * 2 + 2
     };
 
@@ -54,10 +57,10 @@
     } op_t;
 
     typedef struct header_s {
-        int  magic;
-        char prog_name[PROG_NAME_LENGTH + 1];
-        int  prog_size;
-        char comment[COMMENT_LENGTH + 1];
+        uint32_t magic;
+        BYTE prog_name[PROG_NAME_LENGTH + 1];
+        uint32_t prog_size;
+        BYTE comment[COMMENT_LENGTH + 1];
     } header_t;
 
     static const struct op_s OP_TAB[] = {
