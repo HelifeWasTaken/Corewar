@@ -10,7 +10,7 @@
 
     #include <stdint.h>
 
-    #define BYTE char
+    #define BYTE unsigned char
 
     union int_byte {
         int nb;
@@ -21,10 +21,8 @@
     #define NAME_CMD_STRING     ".name"
     #define COMMENT_CMD_STRING  ".comment"
 
-    // Mem size is equivalent to 6 * 1024
-
     enum {
-        MEM_SIZE = 6144,
+        MEM_SIZE = 6 * 1024,
         IDX_MOD = 512,
         MAX_ARGS_NUMBER = 4,
         CHAMPION_COUNT_MAX = MAX_ARGS_NUMBER,

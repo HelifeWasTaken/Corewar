@@ -40,7 +40,7 @@
 
     typedef struct memory {
         BYTE byte;
-        BYTE player;
+        int8_t player;
     } memory_t;
 
     typedef struct virtual_machine {
