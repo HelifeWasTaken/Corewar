@@ -24,7 +24,7 @@
 
     ////////////////////////////////////////////////////////////
     ///
-    /// \brief Alias to malloc system call
+    /// \brief safe malloc
     ///
     /// \param size size in bytes to allocate
     ///
@@ -36,13 +36,12 @@
 
     ////////////////////////////////////////////////////////////
     ///
-    /// \brief Alias to free system call
+    /// \brief Safe free
     ///
     /// \param ptr Pointer to free
     ///
     /// \return Free the previsously ellocated
-    ///         pointer (undefined behaviour may occur if pointer was not
-    ///         allocated with malloc)
+    ///         Aborts if the pointer was no allocated by emallocTM
     ///
     ////////////////////////////////////////////////////////////
 
@@ -62,17 +61,23 @@
     ///
     ////////////////////////////////////////////////////////////
 
+    void free_emalloc(void);
+
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief Free magically all pointers allocated with emallocTM
+    ///
+    ////////////////////////////////////////////////////////////
+
     void *ecalloc(size_t nmemb, size_t size);
 
     ////////////////////////////////////////////////////////////
     ///
     /// \brief Allocates a new pointer of new_size and copies the old pointer
     ///
-    /// \param old_ptr The pointer that needs to be reallocated
+    /// \param ptr The pointer that needs to be reallocated
     ///
-    /// \param old_size Actual pointer size
-    ///
-    /// \param new_size Expected new_size
+    /// \param size Expected new_size
     ///
     /// \return Allocates a newpointer and copies the old pointer
     ///         If new_size is less than old_size so old_ptr is given back
@@ -83,21 +88,15 @@
     ///
     ////////////////////////////////////////////////////////////
 
-    void *erealloc(void *old_ptr, size_t old_size, size_t new_size);
-
-    static inline void my_free(int n, ...)
-    {
-        __builtin_va_list ap;
-        void *tmp = NULL;
-
-        __builtin_va_start(ap, n);
-        for (int i = 0; i < n; i++) {
-            tmp = __builtin_va_arg(ap, void *);
-            efree(tmp);
-        }
-    }
+    void *erealloc(void *ptr, size_t size);
 
     #define new(var, size, nb) \
-        var = (__typeof__(var))my_calloc(size, nb)
+        var = (__typeof__(var))ecalloc(size, nb)
+
+    #define FREE(x) \
+        if ((x)) { \
+            efree((x)); \
+            (x) = NULL; \
+        }
 
 #endif /* !__LIBERTY__EALLOC__H__ */

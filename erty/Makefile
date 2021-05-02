@@ -67,7 +67,10 @@ SRC_STDERR  	=	./estdio/stderr/e_errputchar.c 		\
 SRC_STDLIB_MEM	=	./estdlib/mem/emalloc.c 			\
 					./estdlib/mem/efree.c 				\
 					./estdlib/mem/ecalloc.c 			\
-					./estdlib/mem/erealloc.c
+					./estdlib/mem/erealloc.c 			\
+					./estdlib/mem/emalloc_header.c  	\
+					./estdlib/mem/erealloc.c 			\
+					./estdlib/mem/exmalloc.c
 
 SRC_STDLIB_NUM	=	./estdlib/num/eatoi.c 				\
 					./estdlib/num/eatol.c 				\

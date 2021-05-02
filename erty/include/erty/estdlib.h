@@ -381,22 +381,4 @@
             m_keep = !m_keep, m_count++) \
             for (i = (arr) + m_count; m_keep; m_keep = !m_keep)
 
-    #define EXMALLOC(var, size, retv) \
-        if ((var = emalloc(size)) == NULL) { \
-            DEBUG_ASSERT("emalloc", "Allocation failed"); \
-            return (retv); \
-        }
-
-    #define EXCALLOC(var, nmem, memb, retv) \
-        if ((var = ecalloc(nmem, memb)) == NULL) { \
-            DEBUG_ASSERT("emalloc", "Allocation failed"); \
-            return (retv); \
-        }
-
-    #define FREE(x) \
-        if ((x)) { \
-            efree((x)); \
-            (x) = NULL; \
-        }
-
 #endif /* !__LIBERTY__ESTDLIB__H__ */
