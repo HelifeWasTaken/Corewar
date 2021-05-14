@@ -42,6 +42,7 @@
         COMMENT_LENGTH = 2048,
         COREWAR_EXEC_MAGIC = 0xea83f3,
         MAGIC_NUMBER = COREWAR_EXEC_MAGIC,
+        NOT_A_PLAYER = -1,
         HEADER_SIZE = PROG_NAME_LENGTH + COMMENT_LENGTH + sizeof(int) * 2 + 2
     };
 

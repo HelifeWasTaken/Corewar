@@ -19,9 +19,8 @@ bool vm_init(struct virtual_machine *vm, char **champion_files)
             return (false);
         }
     ememset(vm, 0, sizeof(struct virtual_machine));
-    for (unsigned int i = 0; i < MEM_SIZE; i++) {
-        vm->memory[i].player = -1;
-    }
+    for (unsigned int i = 0; i < MEM_SIZE; i++)
+        vm->memory[i].player = NOT_A_PLAYER;
     for (unsigned int i = 0; i < count; i++)
         if (vm_champion_init(vm, champion_files[i], i, count) == false)
             return (false);

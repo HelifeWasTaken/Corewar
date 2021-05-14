@@ -33,22 +33,27 @@
     //
 
     typedef struct champion {
-        struct      header_s header;
-        struct      program_counter pc;
-        enum living live;
+        struct header_s         header;
+        struct program_counter  pc;
     } champion_t;
 
     typedef struct memory {
-        BYTE byte;
-        int8_t player;
+        BYTE    byte;
+        int8_t  player;
     } memory_t;
 
+    typedef struct proc {
+        int8_t                  player;
+        struct program_counter  pc;
+        BYTE                    reg[REG_NUMBER][REG_SIZE];
+        BYTE                    carry;
+        struct proc             *next;
+    } proc_t;
+
     typedef struct virtual_machine {
-        BYTE            reg[REG_NUMBER][REG_SIZE];
-        BYTE            carry;
-        struct memory   memory[MEM_SIZE];
-        struct champion champion[CHAMPION_COUNT_MAX];
-        unsigned int    champion_count;
+        struct memory       memory[MEM_SIZE];
+        struct champion     champion[CHAMPION_COUNT_MAX];
+        unsigned int        champion_count;
     } virtual_machine_t;
 
     #define DEFAULT_PROGRAM_COUNTER \
@@ -58,7 +63,6 @@
         (struct champion){ \
             .header = { 0 }, \
             .pc     = DEFAULT_PROGRAM_COUNTER, \
-            .live = WAITING_LIVE \
         }
 
     #define ACCESS_MEMORY(memory, idx) memory[(idx) % (MEM_SIZE)]
