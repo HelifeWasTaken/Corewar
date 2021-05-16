@@ -7,7 +7,9 @@
 
 #ifndef _COREWAR_VM_H_
     #define _COREWAR_VM_H_
-
+#ifdef __cplusplus
+extern "C" {
+#endif
     #include <corewar/op.h>
     #include <stdbool.h>
     #include <erty/eendian.h>
@@ -54,6 +56,7 @@
         struct memory       memory[MEM_SIZE];
         struct champion     champion[CHAMPION_COUNT_MAX];
         unsigned int        champion_count;
+        struct proc         *proc;
     } virtual_machine_t;
 
     #define DEFAULT_PROGRAM_COUNTER \
@@ -82,5 +85,7 @@
 
     bool read_memory_byte(const int fd, void *mem, const size_t size);
     bool read_memory_uint(const int fd, void *mem, size_t size);
-
+#ifdef __cplusplus
+}
+#endif
 #endif

@@ -7,7 +7,9 @@
 
 #ifndef _COREWAR_OP_H_
     #define _COREWAR_OP_H_
-
+#ifdef __cplusplus
+extern "C" {
+#endif
     #include <stdint.h>
 
     #define BYTE unsigned char
@@ -47,12 +49,12 @@
     };
 
     typedef struct op_s {
-        char *mnemonique;
-        char nbr_args;
-        BYTE type[MAX_ARGS_NUMBER];
-        BYTE code;
-        int nbr_cycles;
-        char *comment;
+        const char *mnemonique;
+        const char nbr_args;
+        const BYTE type[MAX_ARGS_NUMBER];
+        const BYTE code;
+        const int nbr_cycles;
+        const char *comment;
     } op_t;
 
     typedef struct header_s {
@@ -87,5 +89,7 @@
         {"aff", 1, {T_REG}, 16, 2, "aff"},
         {0, 0, {0}, 0, 0, 0}
     };
-
+#ifdef __cplusplus
+}
+#endif
 #endif

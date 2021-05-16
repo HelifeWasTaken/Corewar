@@ -11,7 +11,7 @@ CC				=	gcc
 
 IFLAGS 			=	-I./include
 
-LFLAGS  		=	-L./erty -lerty
+LFLAGS  		=	-L./erty -lerty -lsdl
 
 DEBUG_FLAGS 	= 	-g3 -ggdb
 

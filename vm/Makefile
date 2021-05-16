@@ -9,6 +9,8 @@ SHELL 			=	bash
 
 CC				=	gcc
 
+CXX 	= g++
+
 IFLAGS 			=	-I../include
 
 LFLAGS  		=	-L../erty -lerty
@@ -34,13 +36,16 @@ endif
 MAIN 		=	main.c
 
 SRC 		= 	./src/vm_init.c \
-				./src/util/memory_reader.c \
-				./src/champion/champion_loader.c \
-				./src/champion/champion_open.c \
-				./src/champion/write_champion_in_ram.c
+			./src/util/memory_reader.c \
+			./src/champion/champion_loader.c \
+			./src/champion/champion_open.c \
+			./src/champion/write_champion_in_ram.c
+
+GRAPH_SRC 	=  	$(SRC) \
+			./src/graphical/main.cpp \
 
 OBJ 		=	$(MAIN:.c=.o) \
-				$(SRC:.c=.o)
+	$(SRC:.c=.o)
 
 NAME 		=	corewar
 
@@ -61,6 +66,9 @@ build: $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) -o $(NAME)
 	@printf "[Linked] % 43s\n" $(NAME) | tr ' ' '.'
 	@printf "[Linked all vm files]\n"
+
+graph:
+	$(CXX) $(CFLAGS) $(GRAPH_SRC) -o $(NAME)
 
 clean:
 	@make -j -C ../erty clean --silent
