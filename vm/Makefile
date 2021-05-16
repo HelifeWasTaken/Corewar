@@ -13,6 +13,8 @@ IFLAGS 			=	-I../include
 
 LDFLAGS  		=	-L../erty -lerty
 
+SFML_FLAGS 	= -lcsfml-window -lcsfml-graphics -lcsfml-system -lcsfml-audio
+
 DEBUG_FLAGS 	= 	-g3 -ggdb
 
 TEST_FLAGS 		= 	--coverage -lcriterion
@@ -24,6 +26,7 @@ POSIX_FLAGS 	=	-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
 CFLAGS 			?=	 $(WFLAGS) $(POSIX_FLAGS) $(IFLAGS) $(LDFLAGS)
 
 DEBUG 			?=	0
+GRAPH 			?=	0
 
 ifeq ($(DEBUG),1)
 	CFLAGS 		+=	$(DEBUG_FLAGS)
@@ -38,9 +41,18 @@ SRC 		= 	./src/vm_init.c \
 			./src/champion/write_champion_in_ram.c
 
 GRAPH_SRC 	=  	$(SRC) \
+			./src/graphical/src/main.c
 
-OBJ 		=	$(MAIN:.c=.o) \
-	$(SRC:.c=.o)
+OBJ 		?=
+
+ifeq ($(GRAPH),1)
+	CFLAGS 		+= 	$(SFML_FLAGS)
+	OBJ 		+= 	$(GRAPH_SRC:.c=.o)
+	CFLAGS 		+= 	-I ./src/graphical/include
+else
+	OBJ 		+= 	$(SRC:.c=.o)
+	OBJ 		+= 	$(MAIN:.c=.o)
+endif
 
 NAME 		=	corewar
 
