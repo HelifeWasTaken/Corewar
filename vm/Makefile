@@ -9,23 +9,19 @@ SHELL 			=	bash
 
 CC				=	gcc
 
-CXX 	= g++
-
 IFLAGS 			=	-I../include
 
-LFLAGS  		=	-L../erty -lerty
+LDFLAGS  		=	-L../erty -lerty
 
 DEBUG_FLAGS 	= 	-g3 -ggdb
 
 TEST_FLAGS 		= 	--coverage -lcriterion
 
-WFLAGS 			=	-W -Wall -Wextra -Werror
+WFLAGS 			=	-W -Wall -Wextra -Werror -Wno-missing-field-initializers
 
 POSIX_FLAGS 	=	-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
 
-STANDARD_FLAGS 	=	-std=c99
-
-CFLAGS 			?=	 $(WFLAGS) $(POSIX_FLAGS) $(STANDARD_FLAGS) $(IFLAGS) $(LFLAGS) -lncurses
+CFLAGS 			?=	 $(WFLAGS) $(POSIX_FLAGS) $(IFLAGS) $(LDFLAGS)
 
 DEBUG 			?=	0
 
@@ -42,7 +38,6 @@ SRC 		= 	./src/vm_init.c \
 			./src/champion/write_champion_in_ram.c
 
 GRAPH_SRC 	=  	$(SRC) \
-			./src/graphical/main.cpp \
 
 OBJ 		=	$(MAIN:.c=.o) \
 	$(SRC:.c=.o)
@@ -59,16 +54,13 @@ $(NAME):
 	@make -j -C . build --silent
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@
 	@printf "[Linked] % 43s\n" $@ | tr ' ' '.'
 
 build: $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) -o $(NAME)
 	@printf "[Linked] % 43s\n" $(NAME) | tr ' ' '.'
 	@printf "[Linked all vm files]\n"
-
-graph:
-	$(CXX) $(CFLAGS) $(GRAPH_SRC) -o $(NAME)
 
 clean:
 	@make -j -C ../erty clean --silent

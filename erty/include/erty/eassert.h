@@ -102,7 +102,7 @@
     #endif
 
     #define DEBUG_PRINTF(format, ...) \
-        efprintf(stderr, RED"%s:%d -> "YELLOW"["format"]\n"DEFAULT, \
+        efprintf(stderr, RED "%s:%d -> " YELLOW "[" format "]\n" DEFAULT, \
             __FILE__, __LINE__, ## __VA_ARGS__)
 
     #define BREAK_POINT DEBUG_PRINTF("");

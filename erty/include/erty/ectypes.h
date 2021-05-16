@@ -208,11 +208,9 @@
 
     #undef  EXIT_SUCCESS
     #undef  EXIT_FAILURE
-    #undef  NULL
     #define EXIT_SUCCESS         0
     #define EXIT_FAILURE        84
     #define UNUSED              __attribute__((unused))
-    #define NULL                (void *)0
     #define UNINITIALIZED(x)    (x = *(&x))
 
 #endif /* !__LIBERTY__CTYPES__H__ */

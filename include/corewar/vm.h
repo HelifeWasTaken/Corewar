@@ -7,9 +7,7 @@
 
 #ifndef _COREWAR_VM_H_
     #define _COREWAR_VM_H_
-#ifdef __cplusplus
-extern "C" {
-#endif
+
     #include <corewar/op.h>
     #include <stdbool.h>
     #include <erty/eendian.h>
@@ -73,7 +71,8 @@ extern "C" {
     bool vm_init(struct virtual_machine *vm, char **champion_files);
 
     bool vm_champion_init(struct virtual_machine *vm, char const *file,
-            const unsigned int i, size_t count);
+        const unsigned int i, unsigned int count);
+
 
     struct memory_reader {
         const char *error;
@@ -85,7 +84,5 @@ extern "C" {
 
     bool read_memory_byte(const int fd, void *mem, const size_t size);
     bool read_memory_uint(const int fd, void *mem, size_t size);
-#ifdef __cplusplus
-}
-#endif
+
 #endif

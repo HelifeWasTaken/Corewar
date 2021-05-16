@@ -27,7 +27,7 @@ static bool vm_champion_header_reader(struct champion *champion,
 }
 
 bool vm_champion_init(struct virtual_machine *vm, char const *file,
-        const unsigned int i, size_t count)
+        const unsigned int i, unsigned int count)
 {
     struct stat st = { 0 };
     struct champion_loader loader = { -1, i, count, file};

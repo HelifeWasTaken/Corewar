@@ -7,9 +7,7 @@
 
 #ifndef _COREWAR_OP_H_
     #define _COREWAR_OP_H_
-#ifdef __cplusplus
-extern "C" {
-#endif
+
     #include <stdint.h>
 
     #define BYTE unsigned char
@@ -89,7 +87,4 @@ extern "C" {
         {"aff", 1, {T_REG}, 16, 2, "aff"},
         {0, 0, {0}, 0, 0, 0}
     };
-#ifdef __cplusplus
-}
-#endif
 #endif

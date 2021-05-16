@@ -25,7 +25,7 @@
     };
 
     bool vm_champion_init(struct virtual_machine *vm, char const *file,
-        const unsigned int i, size_t count);
+        const unsigned int i, unsigned int count);
     bool check_champion_stat_and_open(struct stat *st,
         struct champion_loader *loader);
     bool vm_write_champion_in_ram(struct virtual_machine *vm,
