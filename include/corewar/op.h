@@ -43,12 +43,14 @@
         COREWAR_EXEC_MAGIC = 0xea83f3,
         MAGIC_NUMBER = COREWAR_EXEC_MAGIC,
         NOT_A_PLAYER = -1,
-        HEADER_SIZE = PROG_NAME_LENGTH + COMMENT_LENGTH + sizeof(int) * 2 + 2
+        OP_COUNT = 0x10,
+        HEADER_SIZE =   PROG_NAME_LENGTH + COMMENT_LENGTH +
+                        sizeof(uint32_t) * 2 + 2
     };
 
     typedef struct op_s {
         const char *mnemonique;
-        const char nbr_args;
+        const uint8_t nbr_args;
         const BYTE type[MAX_ARGS_NUMBER];
         const BYTE code;
         const int nbr_cycles;
@@ -62,29 +64,25 @@
         BYTE comment[COMMENT_LENGTH + 1];
     } header_t;
 
-    static const struct op_s OP_TAB[] = {
-        {"live", 1, {T_DIR}, 1, 10, "alive"},
-        {"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load"},
-        {"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store"},
-        {"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition"},
-        {"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction"},
-        {"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
-            "et (and  r1, r2, r3   r1&r2 -> r3"},
-        {"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
-            "ou  (or   r1, r2, r3   r1 | r2 -> r3"},
-        {"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
-            "ou (xor  r1, r2, r3   r1^r2 -> r3"},
-        {"zjmp", 1, {T_DIR}, 9, 20, "jump if zero"},
-        {"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
-            "load index"},
-        {"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
-            "store index"},
-        {"fork", 1, {T_DIR}, 12, 800, "fork"},
-        {"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load"},
-        {"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
-            "long load index"},
-        {"lfork", 1, {T_DIR}, 15, 1000, "long fork"},
-        {"aff", 1, {T_REG}, 16, 2, "aff"},
-        {0, 0, {0}, 0, 0, 0}
+    extern const struct op_s OP_TAB[OP_COUNT];
+
+    typedef union mem_u16 mem16_t;
+    typedef union mem_u32 mem32_t;
+    typedef union mem_u64 mem64_t;
+
+    union mem_u16 {
+        uint16_t vi;
+        BYTE vmem[sizeof(uint16_t)];
     };
+
+    union mem_u32 {
+        uint32_t vi;
+        BYTE vmem[sizeof(uint32_t)];
+    };
+
+    union mem_u64 {
+        uint64_t vi;
+        BYTE vmem[sizeof(uint64_t)];
+    };
+
 #endif

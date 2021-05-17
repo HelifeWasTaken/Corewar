@@ -14,5 +14,11 @@
 
 int main(int argc UNUSED, char *argv[] UNUSED)
 {
-    return EXIT_SUCCESS;
+    struct virtual_machine vm = {0};
+
+    if (argc <= 1)
+        return (EXIT_FAILURE);
+    if (vm_init(&vm, argv + 1) == false)
+        return (EXIT_FAILURE);
+    return (EXIT_SUCCESS);
 }

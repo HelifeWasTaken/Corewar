@@ -1,12 +1,12 @@
+/*
+** EPITECH PROJECT, 2021
+** header
+** File description:
+** header
+*/
+
 #include <corewar/vm.h>
 #include <erty/ealloc.h>
-    typedef struct proc {
-        int8_t                  player;
-        struct program_counter  pc;
-        BYTE                    reg[REG_NUMBER][REG_SIZE];
-        BYTE                    carry;
-        struct proc             *next;
-    } proc_t;
 
 static struct proc *create_proc(struct proc *data)
 {
@@ -20,11 +20,20 @@ static struct proc *create_proc(struct proc *data)
 void add_proc_back(struct proc **head, struct proc *data)
 {
     struct proc *new_proc = create_proc(data);
+    struct proc *ptr = *head;
 
-    
+    if (*head == NULL) {
+        *head = new_proc;
+        return;
+    }
+    for (; ptr->next; ptr = ptr->next);
+    ptr->next = new_proc;
 }
 
-void add_proc_front(struct proc *data)
+void add_proc_front(struct proc **head, struct proc *data)
 {
+    struct proc *new_proc = create_proc(data);
 
+    new_proc->next = *head;
+    *head = new_proc;
 }

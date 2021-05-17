@@ -24,11 +24,6 @@ bool read_memory_byte(const int fd, void *mem, const size_t size)
     return (read_ret != -1 && readed == size);
 }
 
-union mem_u16 {
-    u16_t vi;
-    BYTE vmem[sizeof(u16_t)];
-};
-
 static bool swap_memory_u16(const int fd, void *mem)
 {
     union mem_u16 mem_ptr;
@@ -40,11 +35,6 @@ static bool swap_memory_u16(const int fd, void *mem)
     return (true);
 }
 
-union mem_u32 {
-    u32_t vi;
-    BYTE vmem[sizeof(u32_t)];
-};
-
 static bool swap_memory_u32(const int fd, void *mem)
 {
     union mem_u32 mem_ptr;
@@ -55,11 +45,6 @@ static bool swap_memory_u32(const int fd, void *mem)
     ememcpy(mem, mem_ptr.vmem, sizeof(u32_t));
     return (true);
 }
-
-union mem_u64 {
-    u64_t vi;
-    BYTE vmem[sizeof(u64_t)];
-};
 
 static bool swap_memory_u64(const int fd, void *mem)
 {

@@ -38,7 +38,8 @@ SRC 		= 	./src/vm_init.c \
 			./src/util/memory_reader.c \
 			./src/champion/champion_loader.c \
 			./src/champion/champion_open.c \
-			./src/champion/write_champion_in_ram.c
+			./src/champion/write_champion_in_ram.c \
+			./src/proc/proc.c
 
 GRAPH_SRC 	=  	$(SRC) \
 			./src/graphical/src/main.c

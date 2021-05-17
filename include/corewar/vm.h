@@ -13,12 +13,6 @@
     #include <erty/eendian.h>
     #include <erty/ebitwise.h>
 
-    enum living {
-        DEAD,
-        WAITING_LIVE,
-        LIVING
-    };
-
     typedef struct program_counter {
         unsigned int addr;
         unsigned int next_addr;
@@ -42,14 +36,31 @@
         int8_t  player;
     } memory_t;
 
+    struct instruction {
+        uint8_t arg_count;
+        BYTE args_type[3];
+        union {
+            char reg[T_REG];
+            char dir[T_DIR];
+            char ind[T_IND];
+            char *arg_pointer;
+        } params[3];
+    };
+
     typedef struct proc {
-        int8_t                  player;
-        struct program_counter  pc;
-        BYTE                    reg[REG_NUMBER][REG_SIZE];
-        BYTE                    carry;
-        struct proc             *next;
+        int8_t player;
+        struct program_counter pc;
+        BYTE reg[REG_NUMBER][REG_SIZE];
+        BYTE carry;
+        struct proc *next;
+        bool live;
+        struct instruction instruction;
     } proc_t;
 
+    void add_proc_front(struct proc **head, struct proc *data);
+    void add_proc_back(struct proc **head, struct proc *data);
+
+    typedef struct virtual_machine vm_t;
     typedef struct virtual_machine {
         struct memory       memory[MEM_SIZE];
         struct champion     champion[CHAMPION_COUNT_MAX];
@@ -84,5 +95,9 @@
 
     bool read_memory_byte(const int fd, void *mem, const size_t size);
     bool read_memory_uint(const int fd, void *mem, size_t size);
+
+
+    bool instruction_run_failed(proc_t *proc);
+    bool get_instruction(vm_t *vm, proc_t *proc);
 
 #endif
