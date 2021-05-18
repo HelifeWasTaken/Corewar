@@ -30,13 +30,13 @@
     //
 
     typedef struct champion {
-        struct header_s         header;
-        struct program_counter  pc;
+        struct header_s header;
+        struct program_counter pc;
     } champion_t;
 
     typedef struct memory {
-        BYTE    byte;
-        int8_t  player;
+        BYTE byte;
+        int8_t player;
     } memory_t;
 
     struct instruction {
@@ -66,10 +66,10 @@
     void add_proc_back(struct proc **head, struct proc *data);
 
     typedef struct virtual_machine {
-        struct memory       memory[MEM_SIZE];
-        struct champion     champion[CHAMPION_COUNT_MAX];
-        unsigned int        champion_count;
-        struct proc         *proc;
+        struct memory memory[MEM_SIZE];
+        struct champion champion[CHAMPION_COUNT_MAX];
+        unsigned int champion_count;
+        struct proc *proc;
     } virtual_machine_t;
 
     #define DEFAULT_PROGRAM_COUNTER \
@@ -78,7 +78,7 @@
     #define DEFAULT_CHAMPION \
         (struct champion){ \
             .header = { 0 }, \
-            .pc     = DEFAULT_PROGRAM_COUNTER, \
+            .pc = DEFAULT_PROGRAM_COUNTER, \
         }
 
     #define ACCESS_MEMORY(memory, idx) memory[(idx) % (MEM_SIZE)]
@@ -87,7 +87,6 @@
 
     bool vm_champion_init(struct virtual_machine *vm, char const *file,
         const unsigned int i, unsigned int count);
-
 
     struct memory_reader {
         const char *error;
