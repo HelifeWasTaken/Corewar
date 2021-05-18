@@ -12,6 +12,7 @@
     #include <stdbool.h>
     #include <erty/eendian.h>
     #include <erty/ebitwise.h>
+    #include <erty/string/ecstring.h>
 
     typedef struct program_counter {
         unsigned int addr;
@@ -38,6 +39,7 @@
 
     struct instruction {
         uint8_t arg_count;
+        BYTE opcode;
         BYTE args_type[3];
         union {
             char reg[T_REG];
@@ -96,8 +98,16 @@
     bool read_memory_byte(const int fd, void *mem, const size_t size);
     bool read_memory_uint(const int fd, void *mem, size_t size);
 
-
     bool instruction_run_failed(proc_t *proc);
     bool get_instruction(vm_t *vm, proc_t *proc);
+
+    int getindex(int pc, int offset);
+    struct memory getmem(int pc, int offset, struct memory *mem);
+    BYTE getmem_byte(int pc, int offset, struct memory *mem);
+    int8_t getmem_player(int pc, int offset, struct memory *mem);
+    #define PLAYER_AND_BYTE(player, byte) ((player) << 8 | (byte))
+    void setmem(int pc, int offset, struct memory *mem, int16_t player_byte);
+
+    void load_args(int *param, virtual_machine_t *vm, proc_t *proc, int count);
 
 #endif

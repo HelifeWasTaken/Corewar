@@ -43,7 +43,7 @@
         COREWAR_EXEC_MAGIC = 0xea83f3,
         MAGIC_NUMBER = COREWAR_EXEC_MAGIC,
         NOT_A_PLAYER = -1,
-        OP_COUNT = 0x10,
+        OP_COUNT = 16,
         HEADER_SIZE =   PROG_NAME_LENGTH + COMMENT_LENGTH +
                         sizeof(uint32_t) * 2 + 2
     };

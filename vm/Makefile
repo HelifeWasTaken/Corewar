@@ -7,21 +7,21 @@
 
 SHELL 			=	bash
 
-CC				=	gcc
+CC			=	gcc
 
 IFLAGS 			=	-I../include
 
 LDFLAGS  		=	-L../erty -lerty
 
-SFML_FLAGS 	= -lcsfml-window -lcsfml-graphics -lcsfml-system -lcsfml-audio
+SFML_FLAGS 		= 	-lcsfml-window -lcsfml-graphics -lcsfml-system -lcsfml-audio
 
-DEBUG_FLAGS 	= 	-g3 -ggdb
+DEBUG_FLAGS 		= 	-g3 -ggdb
 
 TEST_FLAGS 		= 	--coverage -lcriterion
 
 WFLAGS 			=	-W -Wall -Wextra -Werror -Wno-missing-field-initializers
 
-POSIX_FLAGS 	=	-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
+POSIX_FLAGS 		=	-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
 
 CFLAGS 			?=	 $(WFLAGS) $(POSIX_FLAGS) $(IFLAGS) $(LDFLAGS)
 
@@ -32,19 +32,26 @@ ifeq ($(DEBUG),1)
 	CFLAGS 		+=	$(DEBUG_FLAGS)
 endif
 
-MAIN 		=	main.c
+MAIN			=	main.c
 
-SRC 		= 	./src/vm_init.c \
-			./src/util/memory_reader.c \
-			./src/champion/champion_loader.c \
-			./src/champion/champion_open.c \
-			./src/champion/write_champion_in_ram.c \
-			./src/proc/proc.c
+SRC			= 	./src/vm_init.c \
+				./src/op.c \
+				./src/champion/champion_loader.c \
+				./src/champion/champion_open.c \
+				./src/champion/write_champion_in_ram.c \ ./src/instruction/check.c \
+				./src/instruction/fail.c \
+				./src/instruction/ld.c \
+				./src/instruction/st.c \
+				./src/proc/proc.c \
+				./src/proc/tick_cycle_proc.c \
+				./src/util/arg.c \
+				./src/util/index_memory.c \
+				./src/util/memory_reader.c
 
-GRAPH_SRC 	=  	$(SRC) \
-			./src/graphical/src/main.c
+GRAPH_SRC 		=  	$(SRC) \
+				./src/graphical/src/main.c
 
-OBJ 		?=
+OBJ			?=
 
 ifeq ($(GRAPH),1)
 	CFLAGS 		+= 	$(SFML_FLAGS)
