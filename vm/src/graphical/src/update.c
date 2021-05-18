@@ -10,8 +10,10 @@
 #include <SFML/Graphics/Color.h>
 #include <SFML/Graphics/RectangleShape.h>
 #include <SFML/Graphics/RenderWindow.h>
+#include <SFML/Graphics/Text.h>
 #include <SFML/Graphics/Types.h>
 #include <SFML/System/Vector2.h>
+#include <stdio.h>
 
 static sfColor get_player_color(int8_t player)
 {
@@ -25,7 +27,7 @@ static sfColor get_player_color(int8_t player)
         case 3:
             return (sfMagenta);
     }
-    return (sfWhite);
+    return (sfColor_fromRGB(128, 128 , 128));
 }
 
 static sfColor get_champion_color(int8_t player)
@@ -57,12 +59,16 @@ static void find_memory_color(graph_t *graph, virtual_machine_t *vm)
 {
     uint32_t x = 0;
     uint32_t y = 0;
+    char buffer[4] = {0};
 
     for (uint32_t i = 0; i < MEM_SIZE; i++) {
         sfRectangleShape_setFillColor(graph->memoryrect.ip[i],
                 get_player_color(vm->memory[i].player));
         sfRectangleShape_setPosition(graph->memoryrect.ip[i],
-                (sfVector2f){x, y});
+                (sfVector2f){x , y});
+        snprintf(buffer, 3, "%02x", vm->memory[i].byte);
+        sfText_setString(graph->text.text, buffer);
+        sfText_setPosition(graph->text.text, (sfVector2f){x + 2, y});
         if (x >= 1920 - (RECT_SIZE - 2) * 2) {
             x = 0;
             y += RECT_SIZE + 2;
@@ -70,6 +76,7 @@ static void find_memory_color(graph_t *graph, virtual_machine_t *vm)
             x += RECT_SIZE + 2;
         sfRenderWindow_drawRectangleShape(graph->window,
                 graph->memoryrect.ip[i], NULL);
+        sfRenderWindow_drawText(graph->window, graph->text.text, NULL);
     }
 }
 

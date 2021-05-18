@@ -17,14 +17,7 @@
 
     #define RECT_SIZE 20
 
-    enum player_color {
-        PLAYER_ONE_COLOR = 4278190335,
-        PLAYER_TWO_COLOR = 65535,
-        PLAYER_THIRD_COLOR = 4294902015,
-        PLAYER_FOUR_COLOR = 4278255615
-    };
-
-    typedef struct memoryrect {
+   typedef struct memoryrect {
         sfRectangleShape *ip[MEM_SIZE];
     } memoryrect_t;
 

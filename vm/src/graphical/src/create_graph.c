@@ -26,6 +26,8 @@ void create_graph(graph_t *graph)
     if (graph->text.font == NULL)
         exit (84);
     graph->text.text = sfText_create();
+    sfText_setCharacterSize(graph->text.text, 15);
+    sfText_setColor(graph->text.text, sfBlack);
     sfText_setFont(graph->text.text, graph->text.font);
     for (unsigned int i = 0; i < MEM_SIZE; i++) {
         graph->memoryrect.ip[i] = sfRectangleShape_create();

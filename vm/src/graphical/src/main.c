@@ -6,8 +6,10 @@
 */
 
 #include <SFML/Graphics/Color.h>
+#include <SFML/Graphics/Font.h>
 #include <SFML/Graphics/RectangleShape.h>
 #include <SFML/Graphics/RenderWindow.h>
+#include <SFML/Graphics/Text.h>
 #include <SFML/Graphics/Types.h>
 #include <SFML/Window/Event.h>
 #include <SFML/Window/Window.h>
@@ -31,6 +33,15 @@ void starting_loop(graph_t *graph, virtual_machine_t *vm)
     }
 }
 
+void destroy_graph(graph_t *graph)
+{
+    for (int i = 0; i < MEM_SIZE; i++)
+            sfRectangleShape_destroy(graph->memoryrect.ip[i]);
+    sfText_destroy(graph->text.text);
+    sfFont_destroy(graph->text.font);
+    sfRenderWindow_destroy(graph->window);
+}
+
 int main(int ac UNUSED, char **av UNUSED)
 {
     virtual_machine_t vm = {0};
@@ -42,5 +53,6 @@ int main(int ac UNUSED, char **av UNUSED)
         return (EXIT_FAILURE);
     create_graph(&graph);
     starting_loop(&graph, &vm);
+    destroy_graph(&graph);
     return (0);
 }
