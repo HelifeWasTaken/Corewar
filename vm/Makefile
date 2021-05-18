@@ -42,7 +42,9 @@ SRC 		= 	./src/vm_init.c \
 			./src/proc/proc.c
 
 GRAPH_SRC 	=  	$(SRC) \
-			./src/graphical/src/main.c
+			./src/graphical/src/main.c \
+			./src/graphical/src/create_graph.c \
+			./src/graphical/src/update.c
 
 OBJ 		?=
 
