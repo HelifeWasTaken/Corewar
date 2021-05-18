@@ -16,7 +16,7 @@ void run_instruction(virtual_machine_t *vm, proc_t *proc)
         NULL, NULL, NULL, NULL
     };
 
-    if (instruction[proc->instruction.opcode - 1] == NULL)
+    if (instruction[proc->instruction.opcode - 1] != NULL)
         instruction[proc->instruction.opcode - 1](vm, proc);
     else
         instruction_run_failed(proc);

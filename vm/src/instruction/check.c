@@ -13,6 +13,7 @@ static int count_args(BYTE opcode, uint8_t args_type[3])
     int i_arg_type = 0;
     BYTE flag = 0b11;
 
+    ememset(args_type, 0, sizeof(uint8_t) * 3);
     for (int i = 0; i < 6; i += 2)
         args_type[i_arg_type++] = ((flag << i) & opcode) >> i;
     return ((bool)args_type[0] + (bool)args_type[1] + (bool)args_type[2]);
@@ -51,7 +52,7 @@ static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
 
 static bool get_arguments_instructions(proc_t *proc, struct memory *mem)
 {
-    int pc_offset = proc->pc.addr + 1;
+    int pc_offset = proc->pc.addr + 2;
 
     for (unsigned int i = 0; i < proc->instruction.arg_count; i++) {
         if (get_arguments_switch_process(proc, mem, pc_offset, i) == false)
@@ -62,17 +63,13 @@ static bool get_arguments_instructions(proc_t *proc, struct memory *mem)
     return (true);
 }
 
-bool get_instruction(vm_t *vm, proc_t *proc)
+bool get_instruction_regular(vm_t *vm, proc_t *proc)
 {
+    BYTE opcode = proc->instruction.opcode;
     BYTE args = getmem_byte(proc->pc.addr, 1, vm->memory);
-    BYTE opcode;
 
-    proc->instruction.opcode = getmem_byte(proc->pc.addr, 1, vm->memory);
     proc->instruction.arg_count = count_args(args,
             proc->instruction.args_type);
-    opcode = proc->instruction.opcode;
-    if (opcode > OP_COUNT + 1)
-        return (instruction_run_failed(proc));
     if (proc->instruction.arg_count != OP_TAB[opcode - 1].nbr_args)
         return (instruction_run_failed(proc));
     if (get_arguments_instructions(proc, vm->memory) == false)
@@ -80,4 +77,28 @@ bool get_instruction(vm_t *vm, proc_t *proc)
     if (check_arguments_instruction(proc, opcode) == false)
         return (instruction_run_failed(proc));
     return (true);
+}
+
+bool get_instruction_special(vm_t *vm, proc_t *proc)
+{
+    proc->instruction.arg_count = 1;
+    proc->instruction.args_type[0] = T_IND;
+    for (unsigned int i = 0; i < T_IND; i++)
+        proc->instruction.params[0].ind[i] =
+            getmem_byte(proc->pc.addr + 1, i, vm->memory);
+    proc->pc.next_addr = getindex(proc->pc.addr, 5);
+    return (true);
+}
+
+bool get_instruction(vm_t *vm, proc_t *proc)
+{
+    BYTE opcode = getmem_byte(proc->pc.addr, 0, vm->memory);
+
+    proc->instruction.opcode = opcode;
+    if (opcode > OP_COUNT + 1 || opcode == 0)
+        return (instruction_run_failed(proc));
+    if (opcode == 0x9)
+        return (get_instruction_special(vm, proc));
+    else
+        return (get_instruction_regular(vm, proc));
 }

@@ -6,11 +6,12 @@
 */
 
 #include <corewar/vm.h>
+#include <erty/eprintf.h>
 
-void zjmp(virtual_machine_t *vm, proc_t *proc)
+void zjmp(virtual_machine_t *vm UNUSED, proc_t *proc)
 {
-    int32_t param;
+    char *ptr = proc->instruction.params[0].ind;
+    int32_t param = ptr[0] << 8 | ptr[1];
 
-    load_args(&param, vm, proc, 1);
     proc->pc.next_addr = getindex(proc->pc.addr, param % IDX_MOD);
 }
