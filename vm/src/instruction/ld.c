@@ -19,5 +19,3 @@ void ld(virtual_machine_t *vm, proc_t *proc)
         v.vmem[i] = getmem_byte(proc->pc.addr, index + i, vm->memory);
     ememcpy(proc->reg[param[1]], v.vmem, sizeof(int32_t));
 }
-
-

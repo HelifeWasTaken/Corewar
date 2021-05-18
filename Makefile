@@ -42,7 +42,7 @@ clean:
 	@make -j -C ./vm/ clean  --silent
 	@find . -type f \( -name "\#*\#" -o -name "*.swp" \) -delete
 
-fclean:		clean
+fclean:	clean
 	@make -j -C ./vm fclean --silent
 	@find . -type f \( -name "*~" -o -name "*.a" -o -name "vgcore.*" \) -delete
 

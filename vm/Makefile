@@ -38,10 +38,12 @@ SRC			= 	./src/vm_init.c \
 				./src/op.c \
 				./src/champion/champion_loader.c \
 				./src/champion/champion_open.c \
-				./src/champion/write_champion_in_ram.c \ ./src/instruction/check.c \
+				./src/champion/write_champion_in_ram.c \
+				./src/instruction/check.c \
 				./src/instruction/fail.c \
 				./src/instruction/ld.c \
 				./src/instruction/st.c \
+				./src/instruction/zjmp.c \
 				./src/proc/proc.c \
 				./src/proc/tick_cycle_proc.c \
 				./src/util/arg.c \

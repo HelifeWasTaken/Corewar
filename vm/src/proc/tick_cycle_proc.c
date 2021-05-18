@@ -10,9 +10,16 @@
 
 void run_instruction(virtual_machine_t *vm, proc_t *proc)
 {
-    (void)vm;
-    (void)proc;
-    return;
+    void (*instruction[OP_COUNT])(virtual_machine_t *, proc_t *) = {
+        NULL, &ld, &st, NULL, NULL, NULL,
+        NULL, NULL, &zjmp, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL
+    };
+
+    if (instruction[proc->instruction.opcode - 1] == NULL)
+        instruction[proc->instruction.opcode - 1](vm, proc);
+    else
+        instruction_run_failed(proc);
 }
 
 static void get_new_cycle(struct memory *mem, proc_t *proc)
