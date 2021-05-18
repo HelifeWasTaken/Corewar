@@ -7,20 +7,15 @@
 
 #include <corewar/vm.h>
 
-int get_arg_value(struct instruction *ins, int arg_i)
-{
-    uint8_t arg_type = ins->args_type[arg_i];
-    char *arg = ins->params[arg_i].arg_pointer;
-
-    if (arg_type == T_REG)
-        return (arg[0]);
-    else if (arg_type == T_DIR)
-        return (arg[1] << 8 | arg[0]);
-    else
-        return (arg[3] << (8 * 3) | arg[2] << (8 * 2) | arg[1] << 8 | arg[0]);
-}
-
 void ld(virtual_machine_t *vm, proc_t *proc)
 {
-    int value = get_arg_value(&proc->instruction, 0);
+    int32_t param[2];
+    int32_t index;
+    mem32_t v;
+
+    load_args(param, vm, proc, 2);
+    index = proc->pc.addr + param[0] % IDX_MOD;
+    for (uint8_t i = 0; i < REG_SIZE; i++)
+        v.vmem[i] = getmem_byte(proc->pc.addr, index + i, vm->memory);
+    ememcpy(proc->reg[param[1]], v.vmem, sizeof(int32_t));
 }

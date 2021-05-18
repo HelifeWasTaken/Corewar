@@ -36,8 +36,7 @@ const struct op_s OP_TAB[OP_COUNT] = {
 
 struct op_s get_op_from_opcode(BYTE opcode)
 {
-    return (opcode >= ARRAY_SIZE(OP_TAB) ?
-            OP_TAB[ARRAY_SIZE(OP_TAB) - 1] : OP_TAB[opcode]);
+    return (OP_TAB[opcode - 1]);
 }
 
 struct op_s get_op_from_str(char *match)
@@ -45,5 +44,6 @@ struct op_s get_op_from_str(char *match)
     for (unsigned int i = 0; i < ARRAY_SIZE(OP_TAB); i++)
         if (estrcmp(match, OP_TAB[i].mnemonique) == 0)
             return (OP_TAB[i]);
-    return (OP_TAB[ARRAY_SIZE(OP_TAB) - 1]);
+    efprintf(stderr, "WARNING Undefined behaviour occured\n");
+    return (OP_TAB[0]);
 }

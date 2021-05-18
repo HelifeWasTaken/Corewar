@@ -7,19 +7,19 @@
 
 SHELL 			=	bash
 
-CC				=	gcc
+CC			=	gcc
 
 IFLAGS 			=	-I./include
 
 LFLAGS  		=	-L./erty -lerty -lsdl
 
-DEBUG_FLAGS 	= 	-g3 -ggdb
+DEBUG_FLAGS 		= 	-g3 -ggdb
 
 TEST_FLAGS 		= 	--coverage -lcriterion
 
 WFLAGS 			=	-W -Wall -Wextra -Werror
 
-POSIX_FLAGS 	=	-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
+POSIX_FLAGS 		=	-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
 
 CFLAGS 			?=	 $(WFLAGS) $(POSIX_FLAGS) $(IFLAGS) $(LFLAGS)
 
@@ -42,7 +42,7 @@ clean:
 	@make -j -C ./vm/ clean  --silent
 	@find . -type f \( -name "\#*\#" -o -name "*.swp" \) -delete
 
-fclean:		clean
+fclean:	clean
 	@make -j -C ./vm fclean --silent
 	@find . -type f \( -name "*~" -o -name "*.a" -o -name "vgcore.*" \) -delete
 

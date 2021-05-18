@@ -1,4 +1,5 @@
 -I./include
+-I ./vm/src/graphical/include
 -W
 -Wall
 -Wextra

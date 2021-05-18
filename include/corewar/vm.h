@@ -12,6 +12,9 @@
     #include <stdbool.h>
     #include <erty/eendian.h>
     #include <erty/ebitwise.h>
+    #include <erty/string/ecstring.h>
+
+    typedef struct virtual_machine vm_t;
 
     typedef struct program_counter {
         unsigned int addr;
@@ -38,6 +41,7 @@
 
     struct instruction {
         uint8_t arg_count;
+        BYTE opcode;
         BYTE args_type[3];
         union {
             char reg[T_REG];
@@ -57,10 +61,10 @@
         struct instruction instruction;
     } proc_t;
 
+    void tick_procs(struct virtual_machine *vm);
     void add_proc_front(struct proc **head, struct proc *data);
     void add_proc_back(struct proc **head, struct proc *data);
 
-    typedef struct virtual_machine vm_t;
     typedef struct virtual_machine {
         struct memory       memory[MEM_SIZE];
         struct champion     champion[CHAMPION_COUNT_MAX];
@@ -96,8 +100,20 @@
     bool read_memory_byte(const int fd, void *mem, const size_t size);
     bool read_memory_uint(const int fd, void *mem, size_t size);
 
-
     bool instruction_run_failed(proc_t *proc);
     bool get_instruction(vm_t *vm, proc_t *proc);
+
+    int getindex(int pc, int offset);
+    struct memory getmem(int pc, int offset, struct memory *mem);
+    BYTE getmem_byte(int pc, int offset, struct memory *mem);
+    int8_t getmem_player(int pc, int offset, struct memory *mem);
+    #define PLAYER_AND_BYTE(player, byte) ((player) << 8 | (byte))
+    void setmem(int pc, int offset, struct memory *mem, int16_t player_byte);
+
+    void load_args(int *param, virtual_machine_t *vm, proc_t *proc, int count);
+
+    void ld(virtual_machine_t *vm, proc_t *proc);
+    void st(virtual_machine_t *vm, proc_t *proc);
+    void zjmp(virtual_machine_t *vm, proc_t *proc);
 
 #endif
