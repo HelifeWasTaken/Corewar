@@ -24,11 +24,11 @@ jobs:
           if: ${{ github.event_name == 'push' && always() }}
           run: |
                checkout=$(git log -1 --pretty=format:"*Checkout:%d: %h %s*")
-               errors=$(bash -c 'cat build_output | grep "error: " -A 2 | python3 -c "import json,sys; print(json.dumps(sys.stdin.read())[1:-1])"')
+               errors=$(bash -c 'cat build_output | grep -E "(Error|No rule|error|warning)" -A 2 | grep -Ev "(Werror|SHELL|AR|--|locale|Linked|..............|\n\n\n\n\n\n\n\n\n\n\n\n\n\n)" | sed 's/\\n/\n/g' | sed 's/\\u//g' | python3 -c "import json,sys; print(json.dumps(sys.stdin.read())[1:-1])"')
                if [[ -z $errors ]]; then
                   errors="No errors."
                fi
                errors_count=$(bash -c 'cat build_output | grep "error: " | wc -l')
                echo '{"content": "**'$GITHUB_REPOSITORY'**\n'$checkout'\nCompilation: '$errors_count' errors.\n```\n'$errors'\n```"}' > notification_data
                cat notification_data
-          curl --data "$(cat notification_data)" --header "Content-Type: application/json" https://discordapp.com/api/webhooks/836977664685375508/lb0GRPEWYYWLxLMbnC-zlxLoeSBZGo1J2Xw87FxdjoPCsltalMNCgvrCZRPAmIAvGmMl
+               curl --data "$(cat notification_data)" --header "Content-Type: application/json" https://discordapp.com/api/webhooks/836977664685375508/lb0GRPEWYYWLxLMbnC-zlxLoeSBZGo1J2Xw87FxdjoPCsltalMNCgvrCZRPAmIAvGmMl

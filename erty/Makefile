@@ -67,7 +67,10 @@ SRC_STDERR  	=	./estdio/stderr/e_errputchar.c 		\
 SRC_STDLIB_MEM	=	./estdlib/mem/emalloc.c 			\
 					./estdlib/mem/efree.c 				\
 					./estdlib/mem/ecalloc.c 			\
-					./estdlib/mem/erealloc.c
+					./estdlib/mem/erealloc.c 			\
+					./estdlib/mem/emalloc_header.c  	\
+					./estdlib/mem/erealloc.c 			\
+					./estdlib/mem/exmalloc.c
 
 SRC_STDLIB_NUM	=	./estdlib/num/eatoi.c 				\
 					./estdlib/num/eatol.c 				\
@@ -218,6 +221,8 @@ SRC_EREGEX 		=	./eregex/eregex.c 				\
 SRC_GETOPT 		=	./getopt/my_getopt.c 			\
 					./getopt/my_getopt_loader.c
 
+SRC_GETLINE 	=	./egetline/egetline.c
+
 SRC_ESTDIO		=	$(SRC_ESTDOUT) 							\
 					$(SRC_ESTDERR)
 
@@ -264,7 +269,8 @@ SRC				=	$(SRC_EWRITE) 							\
 					$(SRC_CSTRING) 							\
 					$(SRC_SSTR) 							\
 					$(SRC_EREGEX) 							\
-					$(SRC_GETOPT)
+					$(SRC_GETOPT) 							\
+					$(SRC_GETLINE)
 
 TEST_ECTYPE_IS 	=	./tests/ectypes/is/test_eis_alpha.c 	\
 					./tests/ectypes/is/test_eis_lower.c 	\

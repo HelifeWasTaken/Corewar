@@ -7,17 +7,42 @@
 
 #include <stdlib.h>
 #include <erty/estdio.h>
+#include "alloc.h"
 
-static const char *ERR_ALLOC_MSG = "Fatal error the impossible happened"
-    " You do not have any memory left! Aborting safely...";
+static struct emalloc *create_emalloc_node(void *ptr, size_t size)
+{
+    struct emalloc *new = exmalloc(sizeof(struct emalloc));
+
+    new->ptr = ptr;
+    new->size = size;
+    new->free = false;
+    new->next = NULL;
+    return (new);
+}
+
+static void insert_emalloc(void *ptr, size_t size)
+{
+    struct emalloc_header **header = emalloc_header();
+    struct emalloc *list = (*header)->list;
+
+    if (list == NULL) {
+        (*header)->list = create_emalloc_node(ptr, size);
+        return;
+    }
+    for (; list->next; list = list->next)
+        if (list->free == true) {
+            list->ptr = ptr;
+            list->size = size;
+            list->free = false;
+            return;
+        }
+    list->next = create_emalloc_node(ptr, size);
+}
 
 void *emalloc(size_t size)
 {
-    void *ptr = malloc(size);
+    void *ptr = exmalloc(size);
 
-    if (ptr == NULL) {
-        efputs(stderr, ERR_ALLOC_MSG);
-        exit(84);
-    }
+    insert_emalloc(ptr, size);
     return (ptr);
 }
