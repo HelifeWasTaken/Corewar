@@ -8,7 +8,7 @@
 #include <corewar/asm.h>
 
 bool parse_label_asm(parser_t *parser, char *buffer, instruction_t *ins,
-        bool is_direct)
+        bool is_direct UNUSED)
 {
     size_t i = parser->col;
 

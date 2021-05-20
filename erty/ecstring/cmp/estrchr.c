@@ -14,3 +14,17 @@ cstr_t estrchr(const_cstr_t str, i32_t c)
             return ((char *)&str[i]);
     return (NULL);
 }
+
+cstr_t estrrchr(const_cstr_t str, i32_t c)
+{
+    char *ptr = estrchr(str, c);
+    char *old = (char *)str;
+
+    if (ptr == NULL)
+        return (NULL);
+    while (ptr != NULL) {
+        old = ptr;
+        ptr = estrchr(++ptr, c);
+    }
+    return (old);
+}

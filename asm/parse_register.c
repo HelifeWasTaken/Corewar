@@ -15,7 +15,7 @@ static bool parser_register_error(parser_t *parser,
                 parser->col, parser->line);
         return (false);
     }
-    for (; buffer[*i] != ',' && buffer[*i] && buffer[*i] != '#'; (*i)++)
+    for (; !istoken(buffer[*i], ", #") && buffer[*i]; (*i)++)
         if (eis_num(buffer[*i]) == false) {
             efprintf(stderr, "Invalid numeric value on %d:%d",
                     parser->line, *i);

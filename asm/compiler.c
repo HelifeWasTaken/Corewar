@@ -9,21 +9,23 @@
 #include <erty/estdio.h>
 #include <erty/eendian.h>
 
-static void compiler_internal_write_parameters(int fd,
-        int16_t type, int32_t value)
+static void write_nbyte_big_endian(int fd, int32_t value, uint8_t size)
 {
     char buf[4] = {0};
 
-    if (type == T_DIR) {
-        value = u32_swap_endian(value);
-        write(fd, &value, DIR_SIZE);
-    } else if (type == T_IND) {
-        value = u16_swap_endian((int16_t)value);
-        write(fd, &value, IND_SIZE);
-    } else {
-        buf[0] = value;
-        write(fd, buf, 1);
-    }
+    for (size_t i = 0; i < size; i++)
+        buf[i] = (value & (0xFF << (8 * (size - 1 - i)))) >>
+            ((size - 1 - i) * 8);
+    write(fd, buf, size);
+}
+
+static void compiler_internal_write_parameters(int fd,
+        int16_t type, int32_t value, bool has_index)
+{
+    if ((type != T_REG && has_index) || type == T_IND)
+        write_nbyte_big_endian(fd, value, IND_SIZE);
+    else
+        write_nbyte_big_endian(fd, value, type == T_DIR ? DIR_SIZE : 1);
 }
 
 static void compiler_internal_write_parameters_layout(int fd,
@@ -58,36 +60,16 @@ static void compiler_write_header(int fd, struct header_s *header)
     write(fd, header, sizeof(struct header_s));
 }
 
-static void compiler_write_special_opcode(instruction_t *ins, int fd)
-{
-    int16_t type = T_DIR;
-
-    switch (ins->opcode) {
-        case LIVE_OPCODE:
-            type = T_DIR;
-            break;
-        case ZJMP_OPCODE:
-        case FORK_OPCODE:
-        case LFORK_OPCODE:
-            type = T_IND;
-            break;
-    }
-    compiler_internal_write_parameters(fd, type, ins->param->iv);
-}
-
 void compiler_internal(parser_t *parser, int fd)
 {
     compiler_write_header(fd, &parser->header);
     for (instruction_t *ins = parser->instruction; ins; ins = ins->next) {
         edputchar(fd, ins->opcode);
-        if (is_special_opcode(ins->opcode)) {
-            compiler_write_special_opcode(ins, fd);
-            continue;
-        }
-        compiler_internal_write_parameters_layout(fd, ins);
+        if (is_special_opcode(ins->opcode) == false)
+            compiler_internal_write_parameters_layout(fd, ins);
         for (uint8_t i = 0; i < ins->arg_count; i++) {
             compiler_internal_write_parameters(fd, ins->param[i].type,
-                    ins->param[i].iv);
+                    ins->param[i].iv, OP_TAB[ins->opcode - 1].type[i] & T_IDX);
         }
     }
 }

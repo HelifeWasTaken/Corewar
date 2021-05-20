@@ -34,7 +34,7 @@
         T_REG = 1,
         T_DIR = 2,
         T_IND = 4,
-        T_LAB = 8,
+        T_IDX = 8,
         IND_SIZE = 2,
         DIR_SIZE = 4,
         REG_SIZE = DIR_SIZE,

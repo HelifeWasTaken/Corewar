@@ -21,8 +21,7 @@ static bool label_replacement_internal(parser_t *parser, instruction_t *ins,
                 return (false);
             }
             efree(ins->param[i].is);
-            ins->param[i].iv = (tmp->index > offset) ?
-                tmp->index - offset : -(tmp->index - offset);
+            ins->param[i].iv = tmp->index - offset;
         }
     }
     return (true);

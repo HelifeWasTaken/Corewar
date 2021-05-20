@@ -53,6 +53,7 @@ static bool parse_line_get_arguments(parser_t *parser, char *buffer,
         }
         return (true);
     }
+    skip_spaces(parser, buffer);
     if (parser_line_error(parser, buffer, ins) == false)
         return (false);
     ins->arg_count++;
@@ -65,14 +66,18 @@ int parse_line(parser_t *parser, char *buffer, instruction_t *ins)
     skip_spaces(parser, buffer);
     if (buffer[parser->col] == '#' || buffer[parser->col] == '\0')
         return (EMPTY_LINE);
+    skip_spaces(parser, buffer);
     if (parse_label(parser, buffer) == false)
         return (false);
     skip_spaces(parser, buffer);
     if (buffer[parser->col] == '#' || buffer[parser->col] == '\0')
         return (EMPTY_LINE);
+    skip_spaces(parser, buffer);
     if (parse_opcode(parser, buffer, ins) == false)
         return (false);
+    skip_spaces(parser, buffer);
     if (parse_line_get_arguments(parser, buffer, ins) == false)
         return (false);
+    skip_spaces(parser, buffer);
     return (parse_line_check_end(parser, buffer));
 }

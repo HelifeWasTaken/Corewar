@@ -33,10 +33,9 @@ struct label *get_label(struct label *head, char *search)
 }
 
 static bool parse_label_process(char *buffer,
-        char *buffer_offset, parser_t *parser)
+        char *buffer_offset, parser_t *parser, size_t i)
 {
     struct label tmp = {0};
-    size_t i = 0;
 
     if (buffer_offset - buffer == 1) {
         efprintf(stderr, "Missing name for label in line: %d", parser->line);
@@ -48,7 +47,7 @@ static bool parse_label_process(char *buffer,
                     parser->line, i);
             return (false);
         }
-    tmp.name = estrndup(buffer, buffer_offset - buffer);
+    tmp.name = estrndup(buffer + parser->col, i - parser->col);
     tmp.index = parser->mem_index;
     label_push_front(&parser->label, &tmp);
     parser->col = i + 2;
@@ -58,8 +57,8 @@ static bool parse_label_process(char *buffer,
 bool parse_label(parser_t *parser, char *buffer)
 {
     skip_spaces(parser, buffer);
-    for (uint8_t i = 0; buffer[i] && !istoken(buffer[i], " \t"); i++)
+    for (size_t i = parser->col; buffer[i] && !istoken(buffer[i], " \t"); i++)
         if (buffer[i] == ':')
-            return (parse_label_process(buffer, buffer + i, parser));
+            return (parse_label_process(buffer, buffer + i, parser, i));
     return (true);
 }

@@ -10,6 +10,7 @@
 bool parser_line_error(parser_t *parser, char *buffer,
         instruction_t *ins)
 {
+    skip_spaces(parser, buffer);
     if (ins->arg_count >= 3) {
         efprintf(stderr, "Expected end of line at: %d:%d\n",
                 parser->line, parser->col);
@@ -26,4 +27,3 @@ bool parser_line_error(parser_t *parser, char *buffer,
         return (false);
     return (true);
 }
-
