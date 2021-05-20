@@ -7,22 +7,30 @@
 
 #include <corewar/asm.h>
 
-bool parse_register(parser_t *parser, char *buffer, instruction_t *ins)
+static bool parser_register_error(parser_t *parser,
+        char *buffer, size_t *i)
 {
-    size_t i = parser->col;
-
-    skip_spaces(parser, buffer);
     if (eis_num(buffer[parser->col]) == false) {
         efprintf(stderr, "Invalid numeric value on %d:%d",
                 parser->col, parser->line);
         return (false);
     }
-    for (; buffer[i] != ',' && buffer[i] && buffer[parser->col] != '#'; i++)
-        if (eis_num(buffer[parser->col]) == false) {
+    for (; buffer[*i] != ',' && buffer[*i] && buffer[*i] != '#'; (*i)++)
+        if (eis_num(buffer[*i]) == false) {
             efprintf(stderr, "Invalid numeric value on %d:%d",
-                    parser->line, parser->col);
+                    parser->line, *i);
             return (false);
         }
+    return (true);
+}
+
+bool parse_register(parser_t *parser, char *buffer, instruction_t *ins)
+{
+    size_t i = parser->col;
+
+    skip_spaces(parser, buffer);
+    if (parser_register_error(parser, buffer, &i) == false)
+        return (false);
     ins->param[ins->arg_count].type = T_REG;
     ins->param[ins->arg_count].iv = eatol(&buffer[parser->col]).value;
     if (ins->param[ins->arg_count].iv < 1 ||

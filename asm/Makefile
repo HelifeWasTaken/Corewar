@@ -45,8 +45,10 @@ SRC			= 	./is_token.c \
 				./parse_value.c \
 				./pre_parsing.c \
 				./read_header.c \
-				./util.c
-
+				./util.c \
+				./check_parser_line_error.c \
+				./read_quotes.c \
+				./compiler.c
 
 OBJ 		= 	$(SRC:.c=.o) \
 			$(MAIN:.c=.o)
