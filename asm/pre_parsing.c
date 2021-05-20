@@ -42,6 +42,7 @@ bool pre_parsing(parser_t *parser, int fd)
             return (false);
         instruction_push_back(&parser->instruction, &tmp);
         parser->mem_index += count_byte_instruction_size(&tmp);
+        printf("%ld\n", parser->mem_index);
     }
     parser->header.prog_size = parser->mem_index;
     FREE(buffer);

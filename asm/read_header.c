@@ -24,7 +24,8 @@ static bool read_name_program(parser_t *parser, char *buffer,
         efprintf(stderr, "Program name exceed the maximum length\n");
         return (false);
     }
-    estrcpy((char *)parser->header.prog_name, buf);
+    ememset(parser->header.prog_name, 0, PROG_NAME_LENGTH);
+    estrcpy(parser->header.prog_name, buf);
     return (true);
 }
 
@@ -48,7 +49,8 @@ static bool read_comment_program(parser_t *parser, char *buffer,
         efprintf(stderr, "Program comment exceed the maximum length\n");
         return (false);
     }
-    estrcpy((char *)parser->header.comment, buf);
+    ememset(parser->header.comment, 0, COMMENT_LENGTH);
+    estrcpy(parser->header.comment, buf);
     return (true);
 }
 

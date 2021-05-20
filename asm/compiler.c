@@ -15,18 +15,10 @@ static void compiler_internal_write_parameters(int fd,
     char buf[4] = {0};
 
     if (type == T_DIR) {
-/*        buf[0] = ((value & 0xFF) << 8) >> 8;
-        buf[1] = ((value & 0xFF) << 16) >> 16;
-        */
-        value = u16_swap_endian((int16_t)value);
+        value = u32_swap_endian(value);
         write(fd, &value, DIR_SIZE);
     } else if (type == T_IND) {
-/*        buf[0] = ((value & 0xFF) << 24) >> 24;
-        buf[1] = ((value & 0xFF) << 16) >> 16;
-        buf[2] = ((value & 0xFF) << 8) >> 8;
-        buf[3] = value & 0xFF;
-        */
-        value = u32_swap_endian(value);
+        value = u16_swap_endian((int16_t)value);
         write(fd, &value, IND_SIZE);
     } else {
         buf[0] = value;
@@ -66,13 +58,30 @@ static void compiler_write_header(int fd, struct header_s *header)
     write(fd, header, sizeof(struct header_s));
 }
 
+static void compiler_write_special_opcode(instruction_t *ins, int fd)
+{
+    int16_t type = T_DIR;
+
+    switch (ins->opcode) {
+        case LIVE_OPCODE:
+            type = T_DIR;
+            break;
+        case ZJMP_OPCODE:
+        case FORK_OPCODE:
+        case LFORK_OPCODE:
+            type = T_IND;
+            break;
+    }
+    compiler_internal_write_parameters(fd, type, ins->param->iv);
+}
+
 void compiler_internal(parser_t *parser, int fd)
 {
     compiler_write_header(fd, &parser->header);
     for (instruction_t *ins = parser->instruction; ins; ins = ins->next) {
         edputchar(fd, ins->opcode);
         if (is_special_opcode(ins->opcode)) {
-            write(fd, &ins->param[0].iv, 4);
+            compiler_write_special_opcode(ins, fd);
             continue;
         }
         compiler_internal_write_parameters_layout(fd, ins);

@@ -59,9 +59,9 @@
 
     typedef struct header_s {
         uint32_t magic;
-        BYTE prog_name[PROG_NAME_LENGTH + 1];
+        char prog_name[PROG_NAME_LENGTH + 1];
         uint32_t prog_size;
-        BYTE comment[COMMENT_LENGTH + 1];
+        char comment[COMMENT_LENGTH + 1];
     } header_t;
 
     extern const struct op_s OP_TAB[OP_COUNT];

@@ -1,4 +1,4 @@
-.name "aled"
-.comment "yo"
-
-live %-1
+.name	"Abel"
+.comment "L'amer noir."
+	ld	%0,	r3
+	zjmp	%2

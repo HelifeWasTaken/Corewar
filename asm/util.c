@@ -15,18 +15,16 @@ bool is_special_opcode(BYTE opcode)
             opcode == FORK_OPCODE || opcode == LFORK_OPCODE);
 }
 
-uint32_t count_byte_instruction_size_dir(int32_t value)
+static uint32_t count_byte_instruction_size_special_opcode(instruction_t *ins)
 {
-    if (value < 0) {
-        return (4);
-    } else {
-        if (value <= 0xff)
-            return (1);
-        if (value <= 0xff << 8)
-            return (2);
-        if (value <= 0xff << 16)
-            return (3);
-        return (4);
+    switch (ins->opcode) {
+        case LIVE_OPCODE:
+            return (DIR_SIZE + 1);
+        case ZJMP_OPCODE:
+        case FORK_OPCODE:
+        case LFORK_OPCODE:
+        default:
+            return (IND_SIZE + 1);
     }
 }
 
@@ -35,7 +33,7 @@ uint32_t count_byte_instruction_size(instruction_t *instruction)
     uint32_t size = BASIC_SIZE_OPCODE_AND_LAYOUT;
 
     if (is_special_opcode(instruction->opcode))
-        return (5);
+        return (count_byte_instruction_size_special_opcode(instruction));
     for (uint8_t i = 0; i < instruction->arg_count; i++) {
         switch (instruction->param[i].type) {
             case T_DIR:
