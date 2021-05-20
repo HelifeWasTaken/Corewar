@@ -36,15 +36,18 @@ all: build		## Put whatever you want here (default : Call build_lib)
 	@printf "[Linked] % 43s\n" $@ | tr ' ' '.'
 
 build:
-	@make -j -C ./vm/ all --silent
+	@make -j -C ./vm all --silent
+	@make -j -C ./asm all --silent
 
 clean:
-	@make -j -C ./vm/ clean  --silent
-	@find . -type f \( -name "\#*\#" -o -name "*.swp" \) -delete
+	@make -j -C ./vm clean  --silent
+	@make -j -C ./asm clean  --silent
+	@find . \( -name "\#*\#" -o -name "*.swp" \) -delete
 
 fclean:	clean
 	@make -j -C ./vm fclean --silent
-	@find . -type f \( -name "*~" -o -name "*.a" -o -name "vgcore.*" \) -delete
+	@make -j -C ./asm fclean --silent
+	@find . \( -name "*~" -o -name "*.a" -o -name "vgcore.*" \) -delete
 
 re:
 	@make -j -C . fclean --silent
