@@ -55,6 +55,9 @@
         struct header_s header;
     } parser_t;
 
+
+    void compiler_internal(parser_t *parser, int fd);
+
     void skip_spaces(parser_t *parser, char *buffer);
     bool istoken(char const c, char const *tokens);
 
@@ -70,7 +73,11 @@
     bool parse_register(parser_t *parser, char *buffer, instruction_t *ins);
 
     int parse_line(parser_t *parser, char *buffer, instruction_t *ins);
+    bool parser_line_error(parser_t *parser, char *buffer,
+            instruction_t *ins);
+
     bool read_header(parser_t *parser, int fd);
+    char *read_quotes(parser_t *parser, char *buffer, bool is_name);
 
     int open_file(char const *file);
 

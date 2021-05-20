@@ -5,7 +5,7 @@
 ** line
 */
 
-#include <corewar/asm.h>
+#include "corewar/asm.h"
 
 static struct instruction *instruction_node(struct instruction *data)
 {
@@ -31,7 +31,7 @@ void instruction_push_back(instruction_t **head, struct instruction *data)
     ptr->next = instruction_node(data);
 }
 
-bool parse_line_check_end(parser_t *parser, char *buffer)
+static bool parse_line_check_end(parser_t *parser, char *buffer)
 {
     if (buffer[parser->col] != '\0' && buffer[parser->col] != '#') {
         efprintf(stderr, "Unexpected char: %c at %d:%d", buffer[parser->col],
@@ -41,7 +41,7 @@ bool parse_line_check_end(parser_t *parser, char *buffer)
     return (true);
 }
 
-bool parse_line_get_arguments(parser_t *parser, char *buffer,
+static bool parse_line_get_arguments(parser_t *parser, char *buffer,
         instruction_t *ins)
 {
     skip_spaces(parser, buffer);
@@ -53,19 +53,7 @@ bool parse_line_get_arguments(parser_t *parser, char *buffer,
         }
         return (true);
     }
-    if (ins->arg_count >= 3) {
-        efprintf(stderr, "Expected end of line at: %d:%d\n",
-                parser->line, parser->col);
-        return (false);
-    }
-    if (buffer[parser->col] != ',' && ins->arg_count != 0) {
-        efprintf(stderr, "Missing ',' at %d:%d\n",
-                parser->line, parser->col);
-        return (false);
-    }
-    if (ins->arg_count != 0)
-        parser->col++;
-    if (parse_argument(parser, buffer, ins) == false)
+    if (parser_line_error(parser, buffer, ins) == false)
         return (false);
     ins->arg_count++;
     return (parse_line_get_arguments(parser, buffer, ins));

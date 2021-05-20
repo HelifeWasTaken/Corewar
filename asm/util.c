@@ -1,5 +1,6 @@
-/* EPITECH PROJECT, 2021
-** util
+/*
+** EPITECH PROJECT, 2021
+** corewar
 ** File description:
 ** util
 */

@@ -26,26 +26,33 @@ signed long long int get_value_overflow_warning(char *buffer, parser_t *parser,
     return (value);
 }
 
+static bool parse_value_error(parser_t *parser, char *buffer, size_t *i)
+{
+    if (buffer[*i] == '-')
+        (*i)++;
+    if (eis_num(buffer[*i]) == false) {
+        efprintf(stderr, "Invalid numeric value on %d:%d",
+                parser->line, *i);
+        return (false);
+    }
+    for (; buffer[*i] != ',' && buffer[*i] && buffer[*i] != '#' &&
+            buffer[*i] != ' '; (*i)++) {
+        if (eis_num(buffer[*i]) == false) {
+            efprintf(stderr, "Invalid numeric value on %d:%d",
+                    parser->line, *i);
+            return (false);
+        }
+    }
+    return (true);
+}
+
 bool parse_value(parser_t *parser, char *buffer, instruction_t *ins,
         bool is_direct)
 {
     size_t i = parser->col;
 
-    if (buffer[i] == '-')
-        i++;
-    if (eis_num(buffer[i]) == false) {
-            efprintf(stderr, "Invalid numeric value on %d:%d",
-                    parser->line, parser->col);
+    if (parse_value_error(parser, buffer, &i) == false)
         return (false);
-    }
-    for (; buffer[i] != ',' && buffer[i] && buffer[i] != '#' &&
-            buffer[i] != ' '; i++) {
-        if (eis_num(buffer[i]) == false) {
-            efprintf(stderr, "Invalid numeric value on %d:%d",
-                    parser->line, parser->col);
-            return (false);
-        }
-    }
     ins->param[ins->arg_count].type = is_direct ? T_DIR : T_IND;
     ins->param[ins->arg_count].iv =
         get_value_overflow_warning(buffer, parser, is_direct);
