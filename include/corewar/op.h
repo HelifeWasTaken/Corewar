@@ -28,7 +28,7 @@
         CHAMPION_COUNT_MAX = MAX_ARGS_NUMBER,
         REG_NUMBER = 16,
         COMMENT_CHAR = '#',
-        LABEL_CHAR = ';',
+        LABEL_CHAR = ':',
         DIRECT_CHAR = '%',
         SEPARATOR_CHAR = ',',
         T_REG = 1,
@@ -83,6 +83,25 @@
     union mem_u64 {
         uint64_t vi;
         BYTE vmem[sizeof(uint64_t)];
+    };
+
+    enum {
+        LIVE_OPCODE     = 0x01,
+        LD_OPCODE       = 0x02,
+        ST_OPCODE       = 0x03,
+        ADD_OPCODE      = 0x04,
+        SUB_OPCODE      = 0x05,
+        AND_OPCODE      = 0x06,
+        OR_OPCODE       = 0x07,
+        XOR_OPCODE      = 0x08,
+        ZJMP_OPCODE     = 0x09,
+        LDI_OPCODE      = 0x0a,
+        STI_OPCODE      = 0x0b,
+        FORK_OPCODE     = 0x0c,
+        LLD_OPCODE      = 0x0d,
+        LLDI_OPCODE     = 0x0e,
+        LFORK_OPCODE    = 0x0f,
+        AFF_OPCODE      = 0x10
     };
 
 #endif

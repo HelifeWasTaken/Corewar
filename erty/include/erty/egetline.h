@@ -15,8 +15,8 @@
     #include <sys/stat.h>
     #include <erty/estdlib.h>
 
-    #define GETLINE_BUF_SIZE        (4096 * 2)
+    #define GETLINE_BUF_SIZE        4096
 
-    ssize_t my_getline(char **res, int fd);
+    ssize_t egetline(char **res, int fd);
 
 #endif
