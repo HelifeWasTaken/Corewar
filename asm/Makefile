@@ -13,8 +13,6 @@ IFLAGS 			=	-I../include
 
 LDFLAGS  		=	-L../erty -lerty
 
-SFML_FLAGS 		= 	-lcsfml-window -lcsfml-graphics -lcsfml-system -lcsfml-audio
-
 DEBUG_FLAGS 		= 	-g3 -ggdb
 
 TEST_FLAGS 		= 	--coverage -lcriterion
@@ -34,40 +32,28 @@ endif
 
 MAIN			=	main.c
 
-SRC			= 	./src/vm_init.c \
-				./src/op.c \
-				./src/champion/champion_loader.c \
-				./src/champion/champion_open.c \
-				./src/champion/write_champion_in_ram.c \
-				./src/instruction/check.c \
-				./src/instruction/fail.c \
-				./src/instruction/ld.c \
-				./src/instruction/st.c \
-				./src/instruction/zjmp.c \
-				./src/proc/proc.c \
-				./src/proc/tick_cycle_proc.c \
-				./src/util/arg.c \
-				./src/util/index_memory.c \
-				./src/util/memory_reader.c
+SRC			= 	./is_token.c \
+				./label.c \
+				./label_replace.c \
+				./op.c \
+				./open_file.c \
+				./parse_argument.c \
+				./parse_label_asm.c \
+				./parse_line.c \
+				./parse_opcode.c \
+				./parse_register.c \
+				./parse_value.c \
+				./pre_parsing.c \
+				./read_header.c \
+				./util.c \
+				./check_parser_line_error.c \
+				./read_quotes.c \
+				./compiler.c
 
-GRAPH_SRC 	=  	$(SRC) \
-			./src/graphical/src/main.c \
-			./src/graphical/src/create_graph.c \
-			./src/graphical/src/update.c
+OBJ 		= 	$(SRC:.c=.o) \
+			$(MAIN:.c=.o)
 
-
-OBJ			?=
-
-ifeq ($(GRAPH),1)
-	CFLAGS 		+= 	$(SFML_FLAGS)
-	OBJ 		+= 	$(GRAPH_SRC:.c=.o)
-	CFLAGS 		+= 	-I ./src/graphical/include
-else
-	OBJ 		+= 	$(SRC:.c=.o)
-	OBJ 		+= 	$(MAIN:.c=.o)
-endif
-
-NAME 		=	corewar
+NAME 		=	asm
 
 all:
 	@rm -f $(NAME)

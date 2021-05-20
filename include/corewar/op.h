@@ -8,77 +8,100 @@
 #ifndef _COREWAR_OP_H_
     #define _COREWAR_OP_H_
 
-    #define MEM_SIZE            (6 * 1024)
-    #define IDX_MOD             512
-    #define MAX_ARGS_NUMBER     4
+    #include <stdint.h>
 
-    #define COMMENT_CHAR        '#'
-    #define LABEL_CHAR          ';'
-    #define DIRECT_CHAR         '%'
-    #define SEPARATOR_CHAR      ','
+    #define BYTE unsigned char
+
+    union int_byte {
+        int nb;
+        BYTE s[4];
+    };
 
     #define LABEL_CHARS         "abcdefghijklmnopqrstuvwxyz_0123456789"
-
     #define NAME_CMD_STRING     ".name"
     #define COMMENT_CMD_STRING  ".comment"
 
-    #define REG_NUMBER          16
-
-    #define T_REG               1
-    #define T_DIR               2
-    #define T_IND               4
-
-    #define  T_LAB              8
+    enum {
+        MEM_SIZE = 6 * 1024,
+        IDX_MOD = 512,
+        MAX_ARGS_NUMBER = 4,
+        CHAMPION_COUNT_MAX = MAX_ARGS_NUMBER,
+        REG_NUMBER = 16,
+        COMMENT_CHAR = '#',
+        LABEL_CHAR = ':',
+        DIRECT_CHAR = '%',
+        SEPARATOR_CHAR = ',',
+        T_REG = 1,
+        T_DIR = 2,
+        T_IND = 4,
+        T_IDX = 8,
+        IND_SIZE = 2,
+        DIR_SIZE = 4,
+        REG_SIZE = DIR_SIZE,
+        PROG_NAME_LENGTH = 128,
+        COMMENT_LENGTH = 2048,
+        COREWAR_EXEC_MAGIC = 0xea83f3,
+        MAGIC_NUMBER = COREWAR_EXEC_MAGIC,
+        NOT_A_PLAYER = -1,
+        OP_COUNT = 16,
+        HEADER_SIZE =   PROG_NAME_LENGTH + COMMENT_LENGTH +
+                        sizeof(uint32_t) * 2 + 2
+    };
 
     typedef struct op_s {
-        char *mnemonique;
-        char nbr_args;
-        args_type_t type[MAX_ARGS_NUMBER];
-        char code;
-        int nbr_cycles;
-        char *comment;
+        const char *mnemonique;
+        const uint8_t nbr_args;
+        const BYTE type[MAX_ARGS_NUMBER];
+        const BYTE code;
+        const int nbr_cycles;
+        const char *comment;
     } op_t;
 
-    #define IND_SIZE            2
-    #define DIR_SIZE            4
-    #define REG_SIZE            DIR_SIZE
-
-    #define PROG_NAME_LENGTH    128
-    #define COMMENT_LENGTH      2048
-
-    #define COREWAR_EXEC_MAGIC  0xea83f3
-
     typedef struct header_s {
-        int magic;
+        uint32_t magic;
         char prog_name[PROG_NAME_LENGTH + 1];
-        int prog_size;
+        uint32_t prog_size;
         char comment[COMMENT_LENGTH + 1];
     } header_t;
 
-    static const struct op_s OP_TAB[] = {
-        {"live", 1, {T_DIR}, 1, 10, "alive"},
-        {"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load"},
-        {"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store"},
-        {"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition"},
-        {"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction"},
-        {"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
-            "et (and  r1, r2, r3   r1&r2 -> r3"},
-        {"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
-            "ou  (or   r1, r2, r3   r1 | r2 -> r3"},
-        {"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
-            "ou (xor  r1, r2, r3   r1^r2 -> r3"},
-        {"zjmp", 1, {T_DIR}, 9, 20, "jump if zero"},
-        {"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
-            "load index"},
-        {"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
-            "store index"},
-        {"fork", 1, {T_DIR}, 12, 800, "fork"},
-        {"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load"},
-        {"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
-            "long load index"},
-        {"lfork", 1, {T_DIR}, 15, 1000, "long fork"},
-        {"aff", 1, {T_REG}, 16, 2, "aff"},
-        {0, 0, {0}, 0, 0, 0}
+    extern const struct op_s OP_TAB[OP_COUNT];
+
+    typedef union mem_u16 mem16_t;
+    typedef union mem_u32 mem32_t;
+    typedef union mem_u64 mem64_t;
+
+    union mem_u16 {
+        uint16_t vi;
+        BYTE vmem[sizeof(uint16_t)];
+    };
+
+    union mem_u32 {
+        uint32_t vi;
+        BYTE vmem[sizeof(uint32_t)];
+    };
+
+    union mem_u64 {
+        uint64_t vi;
+        BYTE vmem[sizeof(uint64_t)];
+    };
+
+    enum {
+        LIVE_OPCODE     = 0x01,
+        LD_OPCODE       = 0x02,
+        ST_OPCODE       = 0x03,
+        ADD_OPCODE      = 0x04,
+        SUB_OPCODE      = 0x05,
+        AND_OPCODE      = 0x06,
+        OR_OPCODE       = 0x07,
+        XOR_OPCODE      = 0x08,
+        ZJMP_OPCODE     = 0x09,
+        LDI_OPCODE      = 0x0a,
+        STI_OPCODE      = 0x0b,
+        FORK_OPCODE     = 0x0c,
+        LLD_OPCODE      = 0x0d,
+        LLDI_OPCODE     = 0x0e,
+        LFORK_OPCODE    = 0x0f,
+        AFF_OPCODE      = 0x10
     };
 
 #endif

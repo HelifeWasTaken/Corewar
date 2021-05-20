@@ -1,0 +1,9 @@
+-I./include
+-I ./vm/src/graphical/include
+-W
+-Wall
+-Wextra
+-Werror
+-D_POSIX_C_SOURCE=200809L
+-D_GNU_SOURCE
+-std=c99

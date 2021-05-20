@@ -434,7 +434,7 @@
     ///
     ////////////////////////////////////////////////////////////
 
-    __always_inline static inline const_cstr_t get_format_at_index(
+    static inline const_cstr_t get_format_at_index(
         const_cstr_t *format, size_t n)
     {
         return ((*format) + n);
@@ -451,7 +451,7 @@
     ///
     ////////////////////////////////////////////////////////////
 
-    __always_inline static inline void consume_format_char(
+    static inline void consume_format_char(
         const_cstr_t *format, size_t n)
     {
         *format = get_format_at_index(format, n);
@@ -470,7 +470,7 @@
     ///
     ////////////////////////////////////////////////////////////
 
-    __always_inline static inline char get_char_format_at_index(
+    static inline char get_char_format_at_index(
         const_cstr_t *format,size_t n)
     {
         return (*(get_format_at_index(format, n)));

@@ -7,23 +7,21 @@
 
 SHELL 			=	bash
 
-CC				=	gcc
+CC			=	gcc
 
 IFLAGS 			=	-I./include
 
-LFLAGS  		=	-L./erty -lerty
+LFLAGS  		=	-L./erty -lerty -lsdl
 
-DEBUG_FLAGS 	= 	-g3 -ggdb
+DEBUG_FLAGS 		= 	-g3 -ggdb
 
 TEST_FLAGS 		= 	--coverage -lcriterion
 
 WFLAGS 			=	-W -Wall -Wextra -Werror
 
-POSIX_FLAGS 	=	-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
+POSIX_FLAGS 		=	-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
 
-STANDARD_FLAGS 	=	-std=c99
-
-CFLAGS 			?=	 $(WFLAGS) $(POSIX_FLAGS) $(STANDARD_FLAGS) $(IFLAGS) $(LFLAGS)
+CFLAGS 			?=	 $(WFLAGS) $(POSIX_FLAGS) $(IFLAGS) $(LFLAGS)
 
 DEBUG 			?=	0
 
@@ -38,18 +36,18 @@ all: build		## Put whatever you want here (default : Call build_lib)
 	@printf "[Linked] % 43s\n" $@ | tr ' ' '.'
 
 build:
-	@make -j -C ./vm/ all --silent
-	@make -j -C ./erty all --silent
+	@make -j -C ./vm all --silent
+	@make -j -C ./asm all --silent
 
 clean:
-	@make -j -C ./erty clean --silent
-	@make -j -C ./vm/ clean  --silent
-	@find . -type f \( -name "\#*\#" -o -name "*.swp" \) -delete
+	@make -j -C ./vm clean  --silent
+	@make -j -C ./asm clean  --silent
+	@find . \( -name "\#*\#" -o -name "*.swp" \) -delete
 
-fclean:		clean
-	@make -j -C ./erty fclean --silent
+fclean:	clean
 	@make -j -C ./vm fclean --silent
-	@find . -type f \( -name "*~" -o -name "*.a" -o -name "vgcore.*" \) -delete
+	@make -j -C ./asm fclean --silent
+	@find . \( -name "*~" -o -name "*.a" -o -name "vgcore.*" \) -delete
 
 re:
 	@make -j -C . fclean --silent

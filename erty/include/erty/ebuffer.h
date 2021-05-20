@@ -253,18 +253,12 @@
 
     size_t eget_buffusable(ebuff_t *buff_info);
 
-    #define EBUFF_PRINTF_CHUNK
-
     ////////////////////////////////////////////////////////////
     ///
     ///  Constant to determine the size of a chunk
     ///
     ////////////////////////////////////////////////////////////
 
-    #ifdef EBUFF_PRINTF_CHUNK
-        #define BUFF_CHUNK              4096
-    #else
-        #define BUFF_CHUNK              1024
-    #endif
+    #define     BUFF_CHUNK              256
 
 #endif /* !__LIBERTY__EBUFFER__H__ */
