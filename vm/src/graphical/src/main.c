@@ -51,17 +51,25 @@ static int menu_loop(graph_t *graph, menu_t *menu, bool *state)
     return (0);
 }
 
+int check_actual_loop(graph_t *graph, menu_t *menu,
+        virtual_machine_t *vm, bool *state)
+{
+    if (*state == false) {
+        if (menu_loop(graph, menu, state) == -1)
+            return (-1);
+    } else
+        graphic_loop(graph, vm, state);
+    return (0);
+}
+
+
 void base_loop(graph_t *graph, menu_t *menu, virtual_machine_t *vm)
 {
     bool state = false;
 
-    while (sfRenderWindow_isOpen(graph->window)) {
-        if (state == false) {
-            if (menu_loop(graph, menu, &state) == -1)
-                return;
-        } else
-            graphic_loop(graph, vm, &state);
-    }
+    while (sfRenderWindow_isOpen(graph->window))
+        if (check_actual_loop(graph, menu, vm, &state) == -1)
+            return;
 }
 
 int main(int ac UNUSED, char **av UNUSED)

@@ -7,7 +7,7 @@
 
 #include <corewar/vm.h>
 
-void ld(virtual_machine_t *vm, proc_t *proc)
+int ld(virtual_machine_t *vm, proc_t *proc)
 {
     int32_t param[2];
     int32_t index;
@@ -18,4 +18,5 @@ void ld(virtual_machine_t *vm, proc_t *proc)
     for (uint8_t i = 0; i < REG_SIZE; i++)
         v.vmem[i] = getmem_byte(proc->pc.addr, index + i, vm->memory);
     ememcpy(proc->reg[param[1]], v.vmem, sizeof(int32_t));
+    return (1);
 }

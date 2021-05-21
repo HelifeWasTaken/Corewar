@@ -7,7 +7,7 @@
 
 #include <corewar/vm.h>
 
-void st(virtual_machine_t *vm, proc_t *proc)
+int st(virtual_machine_t *vm, proc_t *proc)
 {
     int32_t param[2];
     int index = 0;
@@ -20,4 +20,5 @@ void st(virtual_machine_t *vm, proc_t *proc)
                     PLAYER_AND_BYTE(proc->player, proc->reg[param[0]][i]));
     } else
         ememcpy(proc->reg[param[0]], proc->reg[param[1]], REG_SIZE);
+    return (1);
 }

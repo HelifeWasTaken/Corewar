@@ -117,8 +117,8 @@
 
     void load_args(int *param, virtual_machine_t *vm, proc_t *proc, int count);
 
-    void ld(virtual_machine_t *vm, proc_t *proc);
-    void st(virtual_machine_t *vm, proc_t *proc);
-    void zjmp(virtual_machine_t *vm, proc_t *proc);
+    int ld(virtual_machine_t *vm, proc_t *proc);
+    int st(virtual_machine_t *vm, proc_t *proc);
+    int zjmp(virtual_machine_t *vm, proc_t *proc);
 
 #endif

@@ -10,7 +10,7 @@
 
 void run_instruction(virtual_machine_t *vm, proc_t *proc)
 {
-    void (*instruction[OP_COUNT])(virtual_machine_t *, proc_t *) = {
+    int (*instruction[OP_COUNT])(virtual_machine_t *, proc_t *) = {
         NULL, &ld, &st, NULL, NULL, NULL,
         NULL, NULL, &zjmp, NULL, NULL, NULL,
         NULL, NULL, NULL, NULL
