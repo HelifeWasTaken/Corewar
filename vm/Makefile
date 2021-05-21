@@ -40,6 +40,7 @@ SRC			= 	./src/vm_init.c \
 				./src/champion/champion_open.c \
 				./src/champion/write_champion_in_ram.c \
 				./src/instruction/check.c \
+				./src/instruction/check2.c \
 				./src/instruction/fail.c \
 				./src/instruction/ld.c \
 				./src/instruction/st.c \

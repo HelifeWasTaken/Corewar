@@ -8,7 +8,7 @@
 #include <corewar/vm.h>
 #include <erty/estdlib.h>
 
-static int count_args(BYTE opcode, uint8_t args_type[3])
+int count_args(BYTE opcode, uint8_t args_type[3])
 {
     int i_arg_type = 0;
     BYTE flag = 0b11;
@@ -19,7 +19,7 @@ static int count_args(BYTE opcode, uint8_t args_type[3])
     return ((bool)args_type[0] + (bool)args_type[1] + (bool)args_type[2]);
 }
 
-static bool check_arguments_instruction(proc_t *proc, BYTE opcode)
+bool check_arguments_instruction(proc_t *proc, BYTE opcode)
 {
     for (unsigned int i = 0; i < proc->instruction.arg_count; i++)
         if ((proc->instruction.args_type[i] & OP_TAB[opcode - 1].type[i]) == 0)
@@ -50,7 +50,7 @@ static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
     return (false);
 }
 
-static bool get_arguments_instructions(proc_t *proc, struct memory *mem)
+bool get_arguments_instructions(proc_t *proc, struct memory *mem)
 {
     int pc_offset = proc->pc.addr + 2;
 

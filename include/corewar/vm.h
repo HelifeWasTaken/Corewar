@@ -101,6 +101,9 @@
 
     bool instruction_run_failed(proc_t *proc);
 
+    int count_args(BYTE opcode, uint8_t args_type[3]);
+    bool check_arguments_instruction(proc_t *proc, BYTE opcode);
+    bool get_arguments_instructions(proc_t *proc, struct memory *mem);
     bool get_instruction_regular(vm_t *vm, proc_t *proc);
     bool get_instruction_special(vm_t *vm, proc_t *proc);
     bool get_instruction(vm_t *vm, proc_t *proc);
