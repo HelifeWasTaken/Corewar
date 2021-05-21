@@ -1,7 +1,8 @@
-/* EPITECH PROJECT, 2021
-** corewar
+/*
+** EPITECH PROJECT, 2021
+** updat
 ** File description:
-** update
+** up
 */
 
 #include "corewar/core.h"
@@ -47,12 +48,12 @@ static sfColor get_champion_color(int8_t player)
 
 static void find_champion(graph_t *graph, virtual_machine_t *vm)
 {
-     for (proc_t *proc = vm->proc; proc != NULL; proc = proc->next) {
-         sfRectangleShape_setFillColor(graph->memoryrect.ip[proc->pc.addr %
+    for (proc_t *proc = vm->proc; proc != NULL; proc = proc->next) {
+        sfRectangleShape_setFillColor(graph->memoryrect.ip[proc->pc.addr %
                 MEM_SIZE], get_champion_color(proc->player));
         sfRenderWindow_drawRectangleShape(graph->window,
                 graph->memoryrect.ip[proc->pc.addr % MEM_SIZE], NULL);
-     }
+    }
 }
 
 static void find_memory_color(graph_t *graph, virtual_machine_t *vm)

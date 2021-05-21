@@ -100,6 +100,9 @@
     bool read_memory_uint(const int fd, void *mem, size_t size);
 
     bool instruction_run_failed(proc_t *proc);
+
+    bool get_instruction_regular(vm_t *vm, proc_t *proc);
+    bool get_instruction_special(vm_t *vm, proc_t *proc);
     bool get_instruction(vm_t *vm, proc_t *proc);
 
     int getindex(int pc, int offset);
