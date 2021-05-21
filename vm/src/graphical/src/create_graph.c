@@ -35,3 +35,12 @@ void create_graph(graph_t *graph)
                  (sfVector2f){RECT_SIZE, RECT_SIZE});
     }
 }
+
+void destroy_graph(graph_t *graph)
+{
+    for (int i = 0; i < MEM_SIZE; i++)
+            sfRectangleShape_destroy(graph->memoryrect.ip[i]);
+    sfText_destroy(graph->text.text);
+    sfFont_destroy(graph->text.font);
+    sfRenderWindow_destroy(graph->window);
+}
