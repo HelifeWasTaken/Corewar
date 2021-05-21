@@ -18,7 +18,7 @@
 
     #define RECT_SIZE 20
 
-   typedef struct memoryrect {
+    typedef struct memoryrect {
         sfRectangleShape *ip[MEM_SIZE];
     } memoryrect_t;
 
@@ -40,6 +40,9 @@
         } text;
     } graph_t;
 
+    void manage_graphical_event(graph_t *graph, sfEvent *event, bool *state);
+    int manage_menu_event(graph_t *graph, menu_t *menu,
+        sfEvent *event, bool *state);
     void create_graph(graph_t *graph);
     void destroy_graph(graph_t *graph);
     void update_memory(graph_t *graph, virtual_machine_t *vm);

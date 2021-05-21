@@ -28,11 +28,7 @@ static void graphic_loop(graph_t *graph, virtual_machine_t *vm, bool *state)
 
     while (sfRenderWindow_isOpen(graph->window)) {
         sfRenderWindow_clear(graph->window, sfBlack);
-        while (sfRenderWindow_pollEvent(graph->window, &event))
-            if (event.type == sfEvtClosed)
-                sfRenderWindow_close(graph->window);
-            else if (sfKeyboard_isKeyPressed(sfKeyEnter))
-                *state = true;
+        manage_graphical_event(graph, &event, state);
         update_memory(graph, vm);
         tick_procs(vm);
         sfRenderWindow_display(graph->window);
@@ -46,14 +42,8 @@ static int menu_loop(graph_t *graph, menu_t *menu, bool *state)
     sfMusic_play(menu->music);
     while (*state == false) {
         sfRenderWindow_clear(graph->window, sfBlack);
-        while (sfRenderWindow_pollEvent(graph->window, &event))
-            if (event.type == sfEvtClosed) {
-                sfRenderWindow_close(graph->window);
-                destroy_menu(menu);
-                return (-1);
-            }
-            else if (sfKeyboard_isKeyPressed(sfKeyEnter)== sfTrue)
-                *state = true;
+        if (manage_menu_event(graph, menu, &event, state) == -1)
+            return (-1);
         sfRenderWindow_drawSprite(graph->window, menu->sprite, NULL);
         sfRenderWindow_display(graph->window);
     }
