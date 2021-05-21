@@ -54,7 +54,7 @@ static bool parse_label_process(char *buffer,
         return (false);
     }
     for (; i < (size_t)(buffer_offset - buffer); i++)
-        if (istoken(buffer[i], LABEL_CHARS) == false) {
+        if (is_token(buffer[i], LABEL_CHARS) == false) {
             efprintf(stderr, "Invalid character in label at: %d:%d\n",
                     parser->line, i);
             return (false);
@@ -69,7 +69,7 @@ static bool parse_label_process(char *buffer,
 bool parse_label(parser_t *parser, char *buffer)
 {
     skip_spaces(parser, buffer);
-    for (size_t i = parser->col; buffer[i] && !istoken(buffer[i], " \t"); i++)
+    for (size_t i = parser->col; buffer[i] && !is_token(buffer[i], " \t"); i++)
         if (buffer[i] == ':')
             return (parse_label_process(buffer, buffer + i, parser, i));
     return (true);

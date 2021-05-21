@@ -41,6 +41,7 @@ SRC			= 	./src/vm_init.c \
 				./src/champion/write_champion_in_ram.c \
 				./src/instruction/check.c \
 				./src/instruction/check2.c \
+				./src/instruction/has_coding_byte.c \
 				./src/instruction/fail.c \
 				./src/instruction/ld.c \
 				./src/instruction/st.c \
@@ -49,7 +50,7 @@ SRC			= 	./src/vm_init.c \
 				./src/proc/tick_cycle_proc.c \
 				./src/util/arg.c \
 				./src/util/index_memory.c \
-				./src/util/memory_reader.c
+				./src/util/memory_reader.c \
 
 GRAPH_SRC 	=  	$(SRC) \
 			./src/graphical/src/main.c \

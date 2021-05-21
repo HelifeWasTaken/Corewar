@@ -12,12 +12,12 @@ bool parse_label_asm(parser_t *parser, char *buffer, instruction_t *ins,
 {
     size_t i = parser->col;
 
-    if (!istoken(buffer[i], LABEL_CHARS)) {
+    if (!is_token(buffer[i], LABEL_CHARS)) {
             efprintf(stderr, "Invalid Label token at %d:%d\n", parser->line, i);
             return (false);
     }
-    for (; buffer[i] && !istoken(buffer[i], ", #"); i++) {
-        if (!istoken(buffer[i], LABEL_CHARS)) {
+    for (; buffer[i] && !is_token(buffer[i], ", #"); i++) {
+        if (!is_token(buffer[i], LABEL_CHARS)) {
             efprintf(stderr, "Invalid Label token at %d:%d\n", parser->line, i);
             return (false);
         }
