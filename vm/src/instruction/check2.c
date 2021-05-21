@@ -11,11 +11,17 @@ bool get_instruction_regular(vm_t *vm, proc_t *proc)
 {
     BYTE opcode = proc->instruction.opcode;
 
+    proc->pc.next_addr++;
     if (has_coding_byte(proc->instruction.opcode)) {
         proc->instruction.arg_count = count_args(getmem_byte(proc->pc.addr,
-            1, vm->memory), proc->instruction.args_type);
+            0, vm->memory), proc->instruction.args_type);
+        proc->pc.next_addr++;
         if (proc->instruction.arg_count != OP_TAB[opcode - 1].nbr_args)
             return (instruction_run_failed(proc));
+    } else {
+        proc->instruction.arg_count = 1;
+        proc->instruction.args_type[0] = (opcode == LIVE_OPCODE) ?
+            T_IND : T_DIR;
     }
     if (get_arguments_instructions(proc, vm->memory) == false)
         return (instruction_run_failed(proc));

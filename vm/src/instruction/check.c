@@ -28,23 +28,29 @@ bool check_arguments_instruction(proc_t *proc, BYTE opcode)
 }
 
 static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
-        int pc_offset, int i)
+        int32_t *pc_offset, int i)
 {
+    if (OP_TAB[proc->instruction.opcode - 1].type[i] & T_IDX) {
+        for (unsigned int dir_i = 0; dir_i < T_IND; dir_i++)
+            proc->instruction.params[i].dir[dir_i] =
+                getmem_byte(proc->pc.addr, *pc_offset++, mem);
+        return (true);
+    }
     switch (proc->instruction.args_type[i]) {
         case T_DIR:
             for (unsigned int dir_i = 0; dir_i < T_IND; dir_i++)
                 proc->instruction.params[i].dir[dir_i] =
-                    getmem_byte(proc->pc.addr, pc_offset, mem);
+                    getmem_byte(proc->pc.addr, *pc_offset++, mem);
             return (true);
         case T_REG:
-            proc->instruction.params[0].reg[0] =
-                getmem_byte(proc->pc.addr, pc_offset, mem);
-            return (proc->instruction.params[0].reg[0] <= REG_NUMBER &&
-                    proc->instruction.params[0].reg[0] > 0);
+            proc->instruction.params[i].reg[0] =
+                getmem_byte(proc->pc.addr, *pc_offset++, mem);
+            return (proc->instruction.params[i].reg[0] <= REG_NUMBER &&
+                    proc->instruction.params[i].reg[0] > 0);
         case T_IND:
             for (unsigned int ind_i = 0; ind_i < T_IND; ind_i++)
                 proc->instruction.params[i].ind[ind_i] =
-                    getmem_byte(proc->pc.addr, pc_offset, mem);
+                    getmem_byte(proc->pc.addr, *pc_offset++, mem);
             return (true);
     }
     return (false);
@@ -52,12 +58,16 @@ static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
 
 bool get_arguments_instructions(proc_t *proc, struct memory *mem)
 {
-    int pc_offset = proc->pc.addr + 2;
+    int pc_offset = proc->pc.next_addr;
 
+    if (!has_coding_byte(proc->instruction.opcode)) {
+        get_arguments_switch_process(proc, mem, &pc_offset, 0);
+        proc->pc.next_addr = pc_offset;
+        return (true);
+    }
     for (unsigned int i = 0; i < proc->instruction.arg_count; i++) {
-        if (get_arguments_switch_process(proc, mem, pc_offset, i) == false)
+        if (get_arguments_switch_process(proc, mem, &pc_offset, i) == false)
             return (false);
-        pc_offset++;
     }
     proc->pc.next_addr = pc_offset;
     return (true);
