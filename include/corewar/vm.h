@@ -115,6 +115,7 @@
     #define PLAYER_AND_BYTE(player, byte) ((player) << 8 | (byte))
     void setmem(int pc, int offset, struct memory *mem, int16_t player_byte);
 
+    bool has_coding_byte(BYTE opcode);
     void load_args(int *param, virtual_machine_t *vm, proc_t *proc, int count);
 
     int ld(virtual_machine_t *vm, proc_t *proc);

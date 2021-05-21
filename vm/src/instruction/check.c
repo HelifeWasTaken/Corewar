@@ -62,4 +62,3 @@ bool get_arguments_instructions(proc_t *proc, struct memory *mem)
     proc->pc.next_addr = pc_offset;
     return (true);
 }
-

@@ -59,7 +59,7 @@
     void compiler_internal(parser_t *parser, int fd);
 
     void skip_spaces(parser_t *parser, char *buffer);
-    bool istoken(char const c, char const *tokens);
+    bool is_token(char const c, char const *tokens);
 
     bool parse_opcode(parser_t *parser, char *buffer, instruction_t *ins);
     bool parse_label(parser_t *parser, char *buffer);
