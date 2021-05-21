@@ -17,5 +17,7 @@ bool istoken(char const c, char const *tokens)
 
 void skip_spaces(parser_t *parser, char *buffer)
 {
+    if (parser->col >= estrlen(buffer))
+        return;
     for (; istoken(buffer[parser->col], " \t"); parser->col++);
 }

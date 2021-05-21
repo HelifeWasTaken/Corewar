@@ -45,7 +45,8 @@ static bool parse_line_get_arguments(parser_t *parser, char *buffer,
         instruction_t *ins)
 {
     skip_spaces(parser, buffer);
-    if (buffer[parser->col] == '\0' || buffer[parser->col] == '#') {
+    if (buffer[parser->col] == '\0' || buffer[parser->col] == '#' ||
+            COL_BUFSIZE(buffer, (*parser))) {
         if (ins->arg_count == 0) {
             efprintf(stderr, "Expected at least one argument at: %d:%d\n",
                     parser->line, parser->col);
@@ -64,14 +65,16 @@ int parse_line(parser_t *parser, char *buffer, instruction_t *ins)
 {
     *ins = (instruction_t){0};
     skip_spaces(parser, buffer);
-    if (buffer[parser->col] == '#' || buffer[parser->col] == '\0')
+    if (buffer[parser->col] == '#' || buffer[parser->col] == '\0' ||
+            COL_BUFSIZE(buffer, (*parser)))
         return (EMPTY_LINE);
     skip_spaces(parser, buffer);
     if (parse_label(parser, buffer) == false)
         return (false);
     skip_spaces(parser, buffer);
-    if (buffer[parser->col] == '#' || buffer[parser->col] == '\0')
-        return (EMPTY_LINE);
+    if (COL_BUFSIZE(buffer, (*parser)) || buffer[parser->col] == '#' ||
+            buffer[parser->col] == '\0')
+        return (ONLY_LABEL);
     skip_spaces(parser, buffer);
     if (parse_opcode(parser, buffer, ins) == false)
         return (false);

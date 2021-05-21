@@ -89,4 +89,6 @@
         "DESCRIPTION\n\tfile_namefile in assembly language to be converted " \
         "into file_name.cor,an executable in the Virtual Machine.\n"
 
+    #define COL_BUFSIZE(buffer, parser) (estrlen(buffer) <= (parser).col)
+
 #endif

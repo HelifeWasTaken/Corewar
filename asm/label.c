@@ -6,6 +6,7 @@
 */
 
 #include <corewar/asm.h>
+#include <stdlib.h>
 
 static struct label *label_node(struct label *data)
 {
@@ -18,10 +19,21 @@ static struct label *label_node(struct label *data)
 
 static void label_push_front(struct label **head, struct label *data)
 {
-    struct label *new = label_node(data);
+    struct label *ptr = *head;
 
-    new->next = *head;
-    *head = new;
+    if (*head == NULL) {
+        *head = label_node(data);
+        return;
+    }
+    for (; ptr->next; ptr = ptr->next) {
+        if (estrcmp(ptr->name, data->name) == 0) {
+            efprintf(stderr, "Multiple reference of label: [%s] found\n",
+                    data->name);
+            free_emalloc();
+            exit(84);
+        }
+    }
+    ptr->next = label_node(data);
 }
 
 struct label *get_label(struct label *head, char *search)
