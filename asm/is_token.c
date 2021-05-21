@@ -19,5 +19,5 @@ void skip_spaces(parser_t *parser, char *buffer)
 {
     if (parser->col >= estrlen(buffer))
         return;
-    for (; istoken(buffer[parser->col], " \t"); parser->col++);
+    for (; is_token(buffer[parser->col], " \t"); parser->col++);
 }
