@@ -31,7 +31,8 @@ bool parse_argument(parser_t *parser, char *buffer, instruction_t *ins)
     if (buffer[parser->col] == ':') {
         parser->col++;
         return (parse_label_asm(parser, buffer, ins, false));
-    } else if (eis_num(buffer[parser->col]))
+    } else if (eis_num(buffer[parser->col]) ||
+            (buffer[parser->col] == '-' && eis_num(buffer[parser->col + 1])))
         return (parse_value(parser, buffer, ins, false));
     efprintf(stderr, "Invalid char: %c at %d:%d\n", buffer[parser->col],
             parser->line, parser->col);
