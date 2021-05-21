@@ -7,7 +7,7 @@
 
 #include <corewar/asm.h>
 
-bool istoken(char const c, char const *tokens)
+bool is_token(char const c, char const *tokens)
 {
     for (size_t i = 0; tokens[i]; i++)
         if (tokens[i] == c)

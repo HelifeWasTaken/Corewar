@@ -15,7 +15,7 @@ bool parse_opcode(parser_t *parser, char *buffer, instruction_t *ins)
     for (size_t i = 0; i < ARRAY_SIZE(OP_TAB); i++) {
         size = estrlen(OP_TAB[i].mnemonique);
         if (estrncmp(&buffer[parser->col], OP_TAB[i].mnemonique, size) == 0 &&
-                istoken(buffer[parser->col + size], " \t")) {
+                is_token(buffer[parser->col + size], " \t")) {
             parser->col += size;
             ins->opcode = OP_TAB[i].code;
             return (true);
