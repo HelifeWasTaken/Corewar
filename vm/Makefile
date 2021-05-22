@@ -39,10 +39,14 @@ SRC			= 	./src/vm_init.c \
 				./src/champion/champion_loader.c \
 				./src/champion/champion_open.c \
 				./src/champion/write_champion_in_ram.c \
+				./src/instruction/add_sub.c \
+				./src/instruction/aff.c \
+				./src/instruction/bitwise.c \
 				./src/instruction/check.c \
 				./src/instruction/check2.c \
 				./src/instruction/has_coding_byte.c \
 				./src/instruction/fail.c \
+				./src/instruction/fork.c \
 				./src/instruction/ld.c \
 				./src/instruction/st.c \
 				./src/instruction/zjmp.c \
