@@ -20,7 +20,6 @@ void create_graph(graph_t *graph)
 {
     graph->window = sfRenderWindow_create((sfVideoMode){ 1920, 1080, 64 },
             "corewar", sfClose, NULL);
-    sfRenderWindow_setFramerateLimit(graph->window, 60);
     graph->text.font =
         sfFont_createFromFile("./src/graphical/asset/homespun.ttf");
     if (graph->text.font == NULL)

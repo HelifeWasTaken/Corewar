@@ -10,10 +10,10 @@
 
 void run_instruction(virtual_machine_t *vm, proc_t *proc)
 {
-    void (*instruction[OP_COUNT])(virtual_machine_t *, proc_t *) = {
-        NULL, &ld, &st, NULL, NULL, NULL,
-        NULL, NULL, &zjmp, NULL, NULL, NULL,
-        NULL, NULL, NULL, NULL
+    int (*instruction[OP_COUNT])(virtual_machine_t *, proc_t *) = {
+        NULL, &ld, &st, &add, &sub, &and,
+        &or, &xor, &zjmp, &ldi, &sti, &corewar_fork,
+        &lld, &lldi, &corewar_lfork, &aff
     };
 
     if (instruction[proc->instruction.opcode - 1] != NULL)
@@ -44,7 +44,8 @@ void tick_procs(vm_t *vm)
             run_instruction(vm, proc);
             proc->pc.addr = getindex(proc->pc.next_addr, 0);
             get_new_cycle(vm->memory, proc);
-        } else
+        } else {
             proc->pc.addr = getindex(proc->pc.next_addr, 0);
+        }
     }
 }
