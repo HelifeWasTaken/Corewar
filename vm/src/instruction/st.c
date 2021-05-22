@@ -15,7 +15,7 @@ int st(virtual_machine_t *vm, proc_t *proc)
 
     load_args(param, vm, proc, 2);
     if (proc->instruction.args_type[1] == T_DIR) {
-        ememcpy(v.vmem, proc->reg[param[0]], REG_SIZE));
+        ememcpy(v.vmem, proc->reg[param[0]], REG_SIZE);
         v.vi = u32_swap_endian(v.vi);
         index = proc->pc.addr + param[1] % IDX_MOD;
         for (uint8_t i = 0; i < REG_SIZE; i++)

@@ -11,6 +11,7 @@
 #include <SFML/Graphics/RenderWindow.h>
 #include <SFML/Graphics/Text.h>
 #include <SFML/Graphics/Types.h>
+#include <SFML/Graphics/View.h>
 #include <SFML/System/Vector2.h>
 #include <SFML/Window/VideoMode.h>
 #include <SFML/Window/Window.h>
@@ -29,6 +30,7 @@ void create_graph(graph_t *graph)
     sfText_setCharacterSize(graph->text.text, 15);
     sfText_setColor(graph->text.text, sfBlack);
     sfText_setFont(graph->text.text, graph->text.font);
+    graph->view = sfView_create();
     for (unsigned int i = 0; i < MEM_SIZE; i++) {
         graph->memoryrect.ip[i] = sfRectangleShape_create();
         sfRectangleShape_setSize(graph->memoryrect.ip[i],

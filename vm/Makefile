@@ -52,13 +52,15 @@ SRC			= 	./src/vm_init.c \
 				./src/util/index_memory.c \
 				./src/util/memory_reader.c \
 
-GRAPH_SRC 	=  	$(SRC) \
+#GRAPH_SRC 	=  	$(SRC) \
 			./src/graphical/src/main.c \
 			./src/graphical/src/create_graph.c \
 			./src/graphical/src/update.c \
 			./src/graphical/src/menu.c \
 			./src/graphical/src/event.c
 
+GRAPH_SRC 	= 	$(SRC) \
+			./src/bonus/src/main.c
 
 OBJ			?=
 

@@ -34,6 +34,7 @@
     typedef struct graph {
         sfRenderWindow *window;
         memoryrect_t memoryrect;
+        sfView *view;
         struct {
             sfFont *font;
             sfText  *text;
