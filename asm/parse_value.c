@@ -8,21 +8,11 @@
 #include <corewar/asm.h>
 
 signed long long int get_value_overflow_warning(char *buffer, parser_t *parser,
-        bool is_direct)
+        bool is_direct UNUSED)
 {
     signed long long int value = 0;
 
     value = eatol(&buffer[parser->col]).value;
-    if (is_direct) {
-        if (value > INT32_MAX || value < INT32_MIN) {
-            efprintf(stderr, "Warning: Value exceed the size"
-                    " of a direct value\n");
-        }
-    }
-    if (value > INT16_MAX || value < INT16_MIN) {
-        efprintf(stderr, "Warning: Value exceed the size"
-                " of an indirect value\n");
-    }
     return (value);
 }
 
@@ -31,14 +21,13 @@ static bool parse_value_error(parser_t *parser, char *buffer, size_t *i)
     if (buffer[*i] == '-')
         (*i)++;
     if (eis_num(buffer[*i]) == false) {
-        efprintf(stderr, "Invalid numeric value on %d:%d",
+        efprintf(stderr, "Invalid numeric value on %d:%d\n",
                 parser->line, *i);
         return (false);
     }
-    for (; buffer[*i] != ',' && buffer[*i] && buffer[*i] != '#' &&
-            buffer[*i] != ' '; (*i)++) {
+    for (; !is_token(buffer[*i], ", #\t") && buffer[*i]; (*i)++) {
         if (eis_num(buffer[*i]) == false) {
-            efprintf(stderr, "Invalid numeric value on %d:%d",
+            efprintf(stderr, "Invalid numeric value on %d:%d\n",
                     parser->line, *i);
             return (false);
         }

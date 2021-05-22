@@ -16,15 +16,15 @@ OPT(i64) eatol(const_cstr_t str)
 
     while (eis_num(str[i])) {
         if (ADD_OVERFLOW_CHECK(result, (long long)(str[i] - '0')))
-            return (ERR(i64));
+            return (OPT_ERR(i64));
         result += str[i] - '0';
         if (eis_num(str[i + 1])) {
             if (MUL_OVERFLOW_CHECK(result, (long long)10))
-                return (ERR(i64));
+                return (OPT_ERR(i64));
             result *= 10;
         }
         i++;
     }
     return (MUL_OVERFLOW_CHECK(result, (long long)sign) ?
-        ERR(i64) : OK(i64, result * (i64_t)sign));
+        OPT_ERR(i64) : OPT_OK(i64, result * (i64_t)sign));
 }

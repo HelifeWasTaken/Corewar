@@ -8,18 +8,38 @@
 #include <corewar/vm.h>
 #include <erty/estdlib.h>
 
-void run_instruction(virtual_machine_t *vm, proc_t *proc)
+static void update_carry(proc_t *proc, int return_value)
+{
+    bool is_ok = false;
+    BYTE opcode = proc->instruction.opcode;
+    BYTE modify_carry[] = { LD_OPCODE, ADD_OPCODE, SUB_OPCODE,
+        AND_OPCODE, OR_OPCODE, XOR_OPCODE, LDI_OPCODE, LLD_OPCODE, LLDI_OPCODE
+    };
+
+    for (uint8_t i = 0; i < ARRAY_SIZE(modify_carry); i++)
+        if (modify_carry[i] == opcode) {
+            is_ok = true;
+            break;
+        }
+    if (!is_ok)
+        return;
+    proc->carry = (return_value == 0) ? 1 : 0;
+}
+
+int run_instruction(virtual_machine_t *vm, proc_t *proc)
 {
     int (*instruction[OP_COUNT])(virtual_machine_t *, proc_t *) = {
-        NULL, &ld, &st, NULL, NULL, NULL,
-        NULL, NULL, &zjmp, NULL, NULL, NULL,
-        NULL, NULL, NULL, NULL
+        NULL, &ld, &st, &add, &sub, &and,
+        &or, &xor, &zjmp, &ldi, &sti, &corewar_fork,
+        &lld, &lldi, &corewar_lfork, &aff
     };
 
     if (instruction[proc->instruction.opcode - 1] != NULL)
-        instruction[proc->instruction.opcode - 1](vm, proc);
-    else
+        return (instruction[proc->instruction.opcode - 1](vm, proc));
+    else {
         instruction_run_failed(proc);
+        return (1);
+    }
 }
 
 static void get_new_cycle(struct memory *mem, proc_t *proc)
@@ -41,10 +61,11 @@ void tick_procs(vm_t *vm)
             continue;
         }
         if (get_instruction(vm, proc) == true) {
-            run_instruction(vm, proc);
+            update_carry(proc, run_instruction(vm, proc));
             proc->pc.addr = getindex(proc->pc.next_addr, 0);
             get_new_cycle(vm->memory, proc);
-        } else
+        } else {
             proc->pc.addr = getindex(proc->pc.next_addr, 0);
+        }
     }
 }

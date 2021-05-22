@@ -13,6 +13,7 @@
     #include <erty/eendian.h>
     #include <erty/ebitwise.h>
     #include <erty/string/ecstring.h>
+    #include <erty/eprintf.h>
 
     typedef struct virtual_machine vm_t;
 
@@ -119,7 +120,25 @@
     void load_args(int *param, virtual_machine_t *vm, proc_t *proc, int count);
 
     int ld(virtual_machine_t *vm, proc_t *proc);
+    int lld(virtual_machine_t *vm, proc_t *proc);
+    int ldi(virtual_machine_t *vm, proc_t *proc);
+    int lldi(virtual_machine_t *vm, proc_t *proc);
+
     int st(virtual_machine_t *vm, proc_t *proc);
+    int sti(virtual_machine_t *vm, proc_t *proc);
+
     int zjmp(virtual_machine_t *vm, proc_t *proc);
+
+    int add(virtual_machine_t *vm UNUSED, proc_t *proc);
+    int sub(virtual_machine_t *vm UNUSED, proc_t *proc);
+
+    int and(virtual_machine_t *vm UNUSED, proc_t *proc);
+    int or(virtual_machine_t *vm UNUSED, proc_t *proc);
+    int xor(virtual_machine_t *vm UNUSED, proc_t *proc);
+
+    int aff(virtual_machine_t *vm, proc_t *proc);
+
+    int corewar_fork(virtual_machine_t *vm, proc_t *proc);
+    int corewar_lfork(virtual_machine_t *vm, proc_t *proc);
 
 #endif

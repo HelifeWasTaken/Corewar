@@ -1,3 +1,4 @@
 *.o
-corewar_biniaries
+corewar_binaries
 *.a
+*.cor

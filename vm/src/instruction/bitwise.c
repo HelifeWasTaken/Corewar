@@ -18,6 +18,7 @@ int and(virtual_machine_t *vm UNUSED, proc_t *proc)
     return (res);
 }
 
+
 int or(virtual_machine_t *vm UNUSED, proc_t *proc)
 {
     int32_t args[3];

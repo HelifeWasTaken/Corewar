@@ -12,7 +12,7 @@ int getindex(int pc, int offset)
     int index = pc + offset;
 
     if (index < 0)
-        return (MEM_SIZE + index);
+        return ((MEM_SIZE - index) % MEM_SIZE);
     return ((pc + offset) % MEM_SIZE);
 }
 
