@@ -40,6 +40,7 @@ SRC			= 	./src/vm_init.c \
 				./src/champion/champion_open.c \
 				./src/champion/write_champion_in_ram.c \
 				./src/instruction/add_sub.c \
+				./src/instruction/live.c \
 				./src/instruction/aff.c \
 				./src/instruction/bitwise.c \
 				./src/instruction/check.c \
@@ -65,6 +66,7 @@ OBJ			?=
 
 ifeq ($(GRAPH),1)
 	CFLAGS 		+= 	$(NCURSES_FLAGS)
+	CFLAGS 		+= 	-DGRAPHIC
 	OBJ 		+= 	$(GRAPH_SRC:.c=.o)
 	CFLAGS 		+= 	-I ./src/graphical/include
 else

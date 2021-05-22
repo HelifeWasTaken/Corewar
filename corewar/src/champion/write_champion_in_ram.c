@@ -26,27 +26,36 @@ static bool get_fit_for_champion_in_ram(struct virtual_machine *vm,
     return (false);
 }
 
+static bool vm_write_champion_in_ram_process(struct virtual_machine *vm UNUSED,
+        struct champion_loader *loader, size_t *readed, ssize_t *ret)
+{
+    char buf = 0;
+
+    if ((*ret = read(loader->fd, &buf, 1)) == -1) {
+        efprintf(stderr, "Read failed\n");
+        return (false);
+    }
+    vm->memory[(vm->champion[loader->i].pc.addr +
+            *readed) % MEM_SIZE].byte = buf;
+    vm->memory[(vm->champion[loader->i].pc.addr +
+            *readed) % MEM_SIZE].player = loader->i;
+    *readed += *ret;
+    return (true);
+}
+
 bool vm_write_champion_in_ram(struct virtual_machine *vm,
         struct champion_loader *loader)
 {
     size_t readed = 0;
     ssize_t ret = -1;
-    char buf = 0;
 
     if (get_fit_for_champion_in_ram(vm, loader) == false)
         return (false);
     do {
-        if ((ret = read(loader->fd, &buf, 1)) == -1) {
-            efprintf(stderr, "Read failed\n");
+        if (!vm_write_champion_in_ram_process(vm, loader, &readed, &ret))
             return (false);
-        }
-        vm->memory[(vm->champion[loader->i].pc.addr +
-                readed) % MEM_SIZE].byte = buf;
-        vm->memory[(vm->champion[loader->i].pc.addr +
-                readed) % MEM_SIZE].player = loader->i;
-        readed += ret;
     } while (ret > 0 && readed != vm->champion[loader->i].header.prog_size);
-    add_proc_front(&vm->proc, &(struct proc){ .player = loader->i,
-            .pc = vm->champion[loader->i].pc });
+    add_proc_back(&vm->proc, &(struct proc){ .player = loader->i,
+            .pc = vm->champion[loader->i].pc }, &vm->last_instance );
     return (readed == vm->champion[loader->i].header.prog_size);
 }

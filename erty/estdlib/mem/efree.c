@@ -16,12 +16,11 @@ static void efree_pointer(void *ptr, struct emalloc *list)
             list->free = true;
             list->ptr = NULL;
             return;
-
         }
-    free_emalloc();
     efprintf(stderr, "Invalid free of %p nothing"
             " was found in the linked list\n", ptr);
-    exit(255);
+    free_emalloc();
+    exit(84);
 }
 
 void efree(void *ptr)
@@ -34,11 +33,11 @@ void efree(void *ptr)
     header = emalloc_header();
     list = (*header)->list;
     if (list == NULL) {
-        free_emalloc();
         efprintf(stderr, "No allocation were done with done emalloc "
                 "Your pointer must be invalid or allocated"
                 " with the original malloc\n");
-        exit(255);
+        free_emalloc();
+        exit(84);
     }
     efree_pointer(ptr, list);
 }

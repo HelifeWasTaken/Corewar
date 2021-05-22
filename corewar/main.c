@@ -16,6 +16,7 @@ int main(int argc UNUSED, char *argv[] UNUSED)
 {
     struct virtual_machine vm = {0};
 
+    eprintf("%02x\n", 0x9);
     if (argc <= 1)
         return (84);
     if (vm_init(&vm, argv + 1) == false)

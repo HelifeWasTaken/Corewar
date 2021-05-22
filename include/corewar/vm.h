@@ -61,17 +61,26 @@
         struct proc *next;
         bool live;
         struct instruction instruction;
+        uint32_t instance;
     } proc_t;
 
     void tick_procs(struct virtual_machine *vm);
-    void add_proc_front(struct proc **head, struct proc *data);
-    void add_proc_back(struct proc **head, struct proc *data);
+    void add_proc_back(struct proc **head,
+            struct proc *data, uint32_t *instance);
+    void add_proc_front(struct proc **head,
+            struct proc *data, uint32_t *instance);
 
     typedef struct virtual_machine {
         struct memory memory[MEM_SIZE];
         struct champion champion[CHAMPION_COUNT_MAX];
         unsigned int champion_count;
         struct proc *proc;
+        struct {
+            uint32_t last_instance;
+            uint32_t cycle_to_die;
+            uint32_t live_count;
+            BYTE last_live;
+        };
     } virtual_machine_t;
 
     #define DEFAULT_PROGRAM_COUNTER \
@@ -120,6 +129,7 @@
     bool has_coding_byte(BYTE opcode);
     void load_args(int *param, virtual_machine_t *vm, proc_t *proc, int count);
 
+    int live(virtual_machine_t *vm, proc_t *proc);
     int ld(virtual_machine_t *vm, proc_t *proc);
     int lld(virtual_machine_t *vm, proc_t *proc);
     int ldi(virtual_machine_t *vm, proc_t *proc);

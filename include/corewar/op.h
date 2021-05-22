@@ -45,6 +45,9 @@
         MAGIC_NUMBER = COREWAR_EXEC_MAGIC,
         NOT_A_PLAYER = -1,
         OP_COUNT = 16,
+        CYCLE_TO_DIE = 1536,
+        CYCLE_DELTA = 5,
+        NBR_LIVE = 40,
         HEADER_SIZE = PROG_NAME_LENGTH + COMMENT_LENGTH +
             sizeof(uint32_t) * 2 + 2
     };

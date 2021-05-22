@@ -29,7 +29,7 @@ static void update_carry(proc_t *proc, int return_value)
 int run_instruction(virtual_machine_t *vm, proc_t *proc)
 {
     int (*instruction[OP_COUNT])(virtual_machine_t *, proc_t *) = {
-        NULL, &ld, &st, &add, &sub, &and,
+        &live, &ld, &st, &add, &sub, &and,
         &or, &xor, &zjmp, &ldi, &sti, &corewar_fork,
         &lld, &lldi, &corewar_lfork, &aff
     };
@@ -65,7 +65,7 @@ void tick_procs(vm_t *vm)
             proc->pc.addr = getindex(proc->pc.next_addr, 0);
             get_new_cycle(vm->memory, proc);
         } else {
-            proc->pc.addr = getindex(proc->pc.next_addr, 0);
+            proc->pc.addr = getindex(proc->pc.addr, 1);
         }
     }
 }

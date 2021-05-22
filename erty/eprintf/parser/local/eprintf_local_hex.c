@@ -41,7 +41,7 @@ static void eprintf_local_hex(ebuff_t **buff,
     va_list *ap, eprintf_mod_t *mod, bool uppercase)
 {
     u64_t value = get_signed_arg(ap, mod->len);
-    i32_t nb_len = eunblen(value);
+    i32_t nb_len = (value <= 0xf) ? 1 : ((value <= 0xff) ? 2 : 3);
 
     SET_PRECISION(mod->modflag.precision, 0);
     get_unsigned_conversion_padding(nb_len, mod);

@@ -19,6 +19,10 @@ bool vm_init(struct virtual_machine *vm, char **champion_files)
             return (false);
         }
     ememset(vm, 0, sizeof(struct virtual_machine));
+    vm->last_instance = 1;
+    vm->last_live = -1;
+    vm->live_count = 0;
+    vm->cycle_to_die = CYCLE_TO_DIE;
     for (unsigned int i = 0; i < MEM_SIZE; i++)
         vm->memory[i].player = NOT_A_PLAYER;
     for (unsigned int i = 0; i < count; i++)

@@ -9,6 +9,7 @@
 #include "corewar/op.h"
 #include "corewar/vm.h"
 #include <curses.h>
+#include <stdlib.h>
 
 int get_color_player(int8_t player)
 {
@@ -40,11 +41,30 @@ int get_color_champion(int8_t player)
     return (5);
 }
 
-void find_champion(virtual_machine_t *vm)
+static void print_champion(proc_t *proc, int y)
+{
+    int col = 0;
+    int lign = 0;
+    unsigned int i = y * COLS;
+
+    if (i > proc->pc.addr)
+        return;
+    for (; i != proc->pc.addr; i++) {
+        attron(COLOR_PAIR(get_color_champion(proc->player)));
+        col++;
+        if (3 + (col * 3) >= COLS - 3) {
+            col = 0;
+            lign++;
+        }
+    }
+    if (i == proc->pc.addr)
+        mvprintw((2 + lign), 3 + (col * 3), "XX");
+}
+
+void find_champion(virtual_machine_t *vm, int y)
 {
     for (proc_t *proc = vm->proc; proc != NULL; proc = proc->next) {
-        attron(COLOR_PAIR(get_color_champion(proc->player)));
-        mvprintw((proc->pc.addr % 64) + 2, (proc->pc.addr / 64) * 3 + 3, "XX");
+        print_champion(proc, y);
     }
 }
 
