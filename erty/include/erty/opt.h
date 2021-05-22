@@ -18,10 +18,10 @@
             bool is_ok; \
         };
 
-    #define OK(name, val) \
+    #define OPT_OK(name, val) \
         (OPT(name)){.value=val, .is_ok=true}
 
-    #define ERR(name, ...) \
+    #define OPT_ERR(name, ...) \
         (OPT(name)){.value=(0, ##__VA_ARGS__), .is_ok=false}
 
     #define EXPLICIT_ERR(name, v) \
