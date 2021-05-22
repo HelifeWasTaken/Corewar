@@ -13,7 +13,7 @@ IFLAGS 			=	-I../include
 
 LDFLAGS  		=	-L../erty -lerty
 
-SFML_FLAGS 		= 	-lcsfml-window -lcsfml-graphics -lcsfml-system -lcsfml-audio
+NCURSES_FLAGS 		= 	-lncurses
 
 DEBUG_FLAGS 		= 	-g3 -ggdb
 
@@ -56,20 +56,15 @@ SRC			= 	./src/vm_init.c \
 				./src/util/index_memory.c \
 				./src/util/memory_reader.c \
 
-#GRAPH_SRC 	=  	$(SRC) \
-			./src/graphical/src/main.c \
-			./src/graphical/src/create_graph.c \
-			./src/graphical/src/update.c \
-			./src/graphical/src/menu.c \
-			./src/graphical/src/event.c
-
 GRAPH_SRC 	= 	$(SRC) \
-			./src/bonus/src/main.c
+			../bonus/src/main.c \
+			../bonus/src/color.c \
+			../bonus/src/draw.c
 
 OBJ			?=
 
 ifeq ($(GRAPH),1)
-	CFLAGS 		+= 	$(SFML_FLAGS)
+	CFLAGS 		+= 	$(NCURSES_FLAGS)
 	OBJ 		+= 	$(GRAPH_SRC:.c=.o)
 	CFLAGS 		+= 	-I ./src/graphical/include
 else
