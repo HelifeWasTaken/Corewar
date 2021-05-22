@@ -13,6 +13,7 @@
     #include <erty/eendian.h>
     #include <erty/ebitwise.h>
     #include <erty/string/ecstring.h>
+    #include <erty/eprintf.h>
 
     typedef struct virtual_machine vm_t;
 

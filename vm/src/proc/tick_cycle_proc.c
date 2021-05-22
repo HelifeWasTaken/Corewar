@@ -44,7 +44,8 @@ void tick_procs(vm_t *vm)
             run_instruction(vm, proc);
             proc->pc.addr = getindex(proc->pc.next_addr, 0);
             get_new_cycle(vm->memory, proc);
-        } else
+        } else {
             proc->pc.addr = getindex(proc->pc.next_addr, 0);
+        }
     }
 }
