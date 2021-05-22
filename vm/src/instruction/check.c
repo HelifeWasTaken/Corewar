@@ -27,8 +27,9 @@ bool check_arguments_instruction(proc_t *proc, BYTE opcode)
     return (true);
 }
 
-static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
-        int32_t *pc_offset, int i)
+
+static bool get_arguments_switch_process_is_index(proc_t *proc,
+        struct memory *mem, int32_t *pc_offset, int i)
 {
     if (OP_TAB[proc->instruction.opcode - 1].type[i] & T_IDX) {
         for (unsigned int dir_i = 0; dir_i < T_IND; dir_i++)
@@ -36,6 +37,14 @@ static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
                 getmem_byte(proc->pc.addr, *pc_offset++, mem);
         return (true);
     }
+    return (false);
+}
+
+static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
+        int32_t *pc_offset, int i)
+{
+    if (get_arguments_switch_process_is_index(proc, mem, pc_offset, i) == true)
+        return (true);
     switch (proc->instruction.args_type[i]) {
         case T_DIR:
             for (unsigned int dir_i = 0; dir_i < T_IND; dir_i++)
