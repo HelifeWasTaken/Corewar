@@ -20,5 +20,7 @@ int main(int argc UNUSED, char *argv[] UNUSED)
         return (EXIT_FAILURE);
     if (vm_init(&vm, argv + 1) == false)
         return (EXIT_FAILURE);
+    while (1)
+        tick_procs(&vm);
     return (EXIT_SUCCESS);
 }

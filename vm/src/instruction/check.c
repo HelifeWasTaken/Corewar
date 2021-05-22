@@ -32,9 +32,11 @@ static bool get_arguments_switch_process_is_index(proc_t *proc,
         struct memory *mem, int32_t *pc_offset, int i)
 {
     if (OP_TAB[proc->instruction.opcode - 1].type[i] & T_IDX) {
-        for (unsigned int dir_i = 0; dir_i < T_IND; dir_i++)
-            proc->instruction.params[i].dir[dir_i] =
-                getmem_byte(proc->pc.addr, *pc_offset++, mem);
+        for (unsigned int dir_i = 0; dir_i < T_IND; dir_i++) {
+            proc->instruction.params[i].ind[dir_i] =
+                getmem_byte(*pc_offset, 0, mem);
+            (*pc_offset)++;
+        }
         return (true);
     }
     return (false);
@@ -47,19 +49,24 @@ static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
         return (true);
     switch (proc->instruction.args_type[i]) {
         case T_DIR:
-            for (unsigned int dir_i = 0; dir_i < T_IND; dir_i++)
+            for (unsigned int dir_i = 0; dir_i < T_IND; dir_i++) {
                 proc->instruction.params[i].dir[dir_i] =
-                    getmem_byte(proc->pc.addr, *pc_offset++, mem);
+                    getmem_byte(*pc_offset, 0, mem);
+                (*pc_offset)++;
+            }
             return (true);
         case T_REG:
             proc->instruction.params[i].reg[0] =
-                getmem_byte(proc->pc.addr, *pc_offset++, mem);
+                getmem_byte(*pc_offset, 0, mem);
+            (*pc_offset)++;
             return (proc->instruction.params[i].reg[0] <= REG_NUMBER &&
                     proc->instruction.params[i].reg[0] > 0);
         case T_IND:
-            for (unsigned int ind_i = 0; ind_i < T_IND; ind_i++)
+            for (unsigned int ind_i = 0; ind_i < T_IND; ind_i++) {
                 proc->instruction.params[i].ind[ind_i] =
-                    getmem_byte(proc->pc.addr, *pc_offset++, mem);
+                    getmem_byte(*pc_offset, 0, mem);
+                (*pc_offset)++;
+            }
             return (true);
     }
     return (false);
