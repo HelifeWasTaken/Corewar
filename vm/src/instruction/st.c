@@ -4,8 +4,8 @@
 ** File description:
 ** corewar
 */
-
 #include <corewar/vm.h>
+#include <erty/eprintf.h>
 
 int st(virtual_machine_t *vm, proc_t *proc)
 {
@@ -14,7 +14,7 @@ int st(virtual_machine_t *vm, proc_t *proc)
     mem32_t v;
 
     load_args(param, vm, proc, 2);
-    if (proc->instruction.args_type[1] == T_DIR) {
+    if (proc->instruction.args_type[1] != T_REG) {
         ememcpy(v.vmem, proc->reg[param[0]], REG_SIZE);
         v.vi = u32_swap_endian(v.vi);
         index = proc->pc.addr + param[1] % IDX_MOD;
@@ -35,10 +35,14 @@ int sti(virtual_machine_t *vm, proc_t *proc)
     mem32_t v;
 
     load_args(param, vm, proc, 3);
-    param_res[0] = proc->instruction.args_type[1] != T_REG ?
-        param[1] : *(int32_t *)proc->reg[param[1]];
-    param_res[1] = proc->instruction.args_type[1] != T_REG ?
-        param[1] : *(int32_t *)proc->reg[param[2]];
+    if (proc->instruction.args_type[1] == T_REG)
+        ememcpy(&param_res[0], proc->reg[param[1]], REG_SIZE);
+    else
+        param_res[0] = param[1];
+    if (proc->instruction.args_type[2] == T_REG)
+        ememcpy(&param_res[1], proc->reg[param[2]], REG_SIZE);
+    else
+        param_res[1] = param[2];
     ememcpy(v.vmem, proc->reg[param[0]], REG_SIZE);
     v.vi = u32_swap_endian(v.vi);
     index = proc->pc.addr + (param_res[0] + param_res[1]) % IDX_MOD;

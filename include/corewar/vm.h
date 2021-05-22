@@ -14,6 +14,7 @@
     #include <erty/ebitwise.h>
     #include <erty/string/ecstring.h>
     #include <erty/eprintf.h>
+    #include <erty/eassert.h>
 
     typedef struct virtual_machine vm_t;
 

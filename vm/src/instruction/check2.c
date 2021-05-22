@@ -33,6 +33,7 @@ bool get_instruction(vm_t *vm, proc_t *proc)
 {
     BYTE opcode = getmem_byte(proc->pc.addr, 0, vm->memory);
 
+    proc->pc.next_addr = proc->pc.addr;
     proc->instruction.opcode = opcode;
     if (opcode > OP_COUNT + 1 || opcode == 0)
         return (instruction_run_failed(proc));

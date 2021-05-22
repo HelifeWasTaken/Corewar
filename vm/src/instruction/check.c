@@ -7,6 +7,7 @@
 
 #include <corewar/vm.h>
 #include <erty/estdlib.h>
+#include <stdlib.h>
 
 int count_args(BYTE opcode, uint8_t args_type[3])
 {
@@ -14,6 +15,14 @@ int count_args(BYTE opcode, uint8_t args_type[3])
     args_type[0] = (opcode & 0b11000000) >> 6;
     args_type[1] = (opcode & 0b00110000) >> 4;
     args_type[2] = (opcode & 0b00001100) >> 2;
+    args_type[0] = (args_type[0] == 0b1) ? T_REG :
+        ((args_type[0] == 0b10) ? T_DIR : T_IND);
+    if (args_type[1])
+        args_type[1] = (args_type[1] == 0b1) ? T_REG :
+            ((args_type[1] == 0b10) ? T_DIR : T_IND);
+    if (args_type[2])
+        args_type[2] = (args_type[2] == 0b1) ? T_REG :
+            ((args_type[2] == 0b10) ? T_DIR : T_IND);
     return ((bool)args_type[0] + (bool)args_type[1] + (bool)args_type[2]);
 }
 
@@ -24,7 +33,6 @@ bool check_arguments_instruction(proc_t *proc, BYTE opcode)
             return (instruction_run_failed(proc));
     return (true);
 }
-
 
 static bool get_arguments_switch_process_second(proc_t *proc,
         struct memory *mem, int32_t *pc_offset, int i)
@@ -59,7 +67,7 @@ static bool get_arguments_switch_process(proc_t *proc, struct memory *mem,
         return (proc->instruction.params[i].reg[0] <= REG_NUMBER &&
                 proc->instruction.params[i].reg[0] > 0);
     }
-    if (proc->instruction.args_type[i] == T_REG) {
+    if (proc->instruction.args_type[i] == T_IND) {
         for (unsigned int ind_i = 0; ind_i < IND_SIZE; ind_i++) {
             proc->instruction.params[i].ind[ind_i] =
                 getmem_byte(*pc_offset, 0, mem);
