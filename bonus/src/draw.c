@@ -36,7 +36,7 @@ void draw_hud(vm_t *vm)
             " Champion count: [%d]\n",
         vm->last_live, vm->live_count, vm->cycle_to_die, vm->champion_count);
     for (unsigned int i = 0; i < vm->champion_count; i++)
-        printw(" [ Player: [%d], Name: [%s] ]",
+        printw("%s[ Player: [%d], Name: [%s] ]", i ? "   " : "",
             i, vm->champion[i].header.prog_name);
     for (unsigned int i = 0; WINDOWS_LOGO[i]; i++)
         mvprintw(y++, COLS / 2 - 27, "%s", WINDOWS_LOGO[i]);
@@ -83,10 +83,9 @@ void draw_map(virtual_machine_t *vm, int y)
         col++;
         if (3 + (col * 3) >= COL_MAX) {
             attron(COLOR_PAIR(10));
-            mvprintw((2 + lign), 0, "0x%02x", i);
             col = DEF_COL;
             lign += 2;
+            mvprintw((2 + lign), 0, "0x%04x", i);
         }
     }
 }
-

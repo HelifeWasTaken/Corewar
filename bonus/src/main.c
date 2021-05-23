@@ -66,6 +66,7 @@ int main(int argc UNUSED, char *argv[] UNUSED)
         return (84);
     if (core_loader(&vm, argv, argc) == 84)
         return (84);
+    noecho();
     sfMusic_play(music);
     stdscr = initscr();
     keypad(stdscr,  TRUE);

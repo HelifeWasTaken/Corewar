@@ -20,7 +20,7 @@
 
     #define DEF_COL 2
     #define COL_MIN 50
-    #define COL_MAX (COLS - 4)
+    #define COL_MAX (COLS - 2)
     #define ROW_MIN 50
     #define ROW_HUD (LINES - 17)
 
