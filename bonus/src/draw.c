@@ -13,12 +13,12 @@ void draw_hud(vm_t *vm)
     move(ROW_HUD + 1, 0);
     attron(COLOR_PAIR(10));
     printw("Last Live: [%d], Live count: [%d], Cycle to die: [%d],"
-            " Champion count: [%d]\n\n",
+            " Champion count: [%d]\n",
         vm->last_live, vm->live_count, vm->cycle_to_die, vm->champion_count);
-    for (unsigned int i = 0; i < vm->champion_count; i++) {
-        printw("Player: [%d], Name: [%s]\n\n",
+    for (unsigned int i = 0; i < vm->champion_count; i++)
+        printw(" [ Player: [%d], Name: [%s] ]",
             i, vm->champion[i].header.prog_name);
-    }
+    printw("\n%s", WINDOWS_LOGO);
 }
 
 static void draw_champion_internal(proc_t *proc, int y)
