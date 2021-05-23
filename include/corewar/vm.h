@@ -47,9 +47,9 @@
         BYTE opcode;
         BYTE args_type[3];
         union {
-            char reg[T_REG];
-            char dir[T_DIR];
-            char ind[T_IND];
+            char reg[1];
+            char dir[DIR_SIZE];
+            char ind[IND_SIZE];
             char *arg_pointer;
         } params[3];
     };

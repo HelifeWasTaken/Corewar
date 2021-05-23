@@ -14,13 +14,14 @@ static int32_t get_arg_value(struct instruction *ins, int arg_i,
     uint8_t arg_type = ins->args_type[arg_i];
 
     if (arg_type == T_REG)
-        return (ins->params[arg_i].reg[0]);
-    if ((OP_TAB[ins->opcode - 1].type[arg_i] & T_IDX) != 0 || arg_type == T_DIR)
-        return (ins->params[arg_i].dir[0] << 8 | ins->params[arg_i].dir[1]);
-    else
-        return (ins->params[arg_i].ind[0] << 24 |
-                ins->params[arg_i].ind[1] << 16 |
-                ins->params[arg_i].ind[2] << 8 | ins->params[arg_i].ind[3]);
+        return (ins->params[arg_i].reg[0] - 1);
+    if ((OP_TAB[ins->opcode - 1].type[arg_i] & T_IDX) != 0 || arg_type == T_IND)
+        return (ins->params[arg_i].ind[0] << 8 | ins->params[arg_i].ind[1]);
+    else {
+        return (ins->params[arg_i].dir[0] << 24 |
+                ins->params[arg_i].dir[1] << 16 |
+                ins->params[arg_i].dir[2] << 8 | ins->params[arg_i].dir[3]);
+    }
 }
 
 void load_args(int *param, virtual_machine_t *vm, proc_t *proc, int count)
