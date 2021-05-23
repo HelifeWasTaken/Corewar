@@ -18,7 +18,7 @@ bool check_opcode_and_instruction(uint32_t line, instruction_t *ins)
     for (uint8_t i = 0; i < ins->arg_count; i++) {
         if ((op->type[i] & ins->param[i].type) == 0) {
             efprintf(stderr,
-                    "The argument n°%d is invalid at line: %d\n", i, line);
+                    "The argument n°%d is invalid at line: %d\n", i + 1, line);
             return (false);
         }
     }

@@ -16,6 +16,7 @@ static struct proc *create_proc(struct proc *data, uint32_t *instance)
     new_proc->player = data->player;
     new_proc->instance = *instance;
     (*instance)++;
+    ememcpy(new_proc->reg[0], instance, sizeof(int32_t));
     return (new_proc);
 }
 
