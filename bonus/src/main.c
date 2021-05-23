@@ -5,13 +5,13 @@
 ** main
 */
 
-
 #include <curses.h>
 #include <time.h>
 #include "corewar/bonus.h"
 #include "corewar/vm.h"
 #include <bits/types/clock_t.h>
 #include <stdlib.h>
+#include <SFML/Audio.h>
 
 static void handle_input(int *y)
 {
@@ -60,9 +60,13 @@ static int corewar(struct virtual_machine *vm)
 int main(int argc UNUSED, char *argv[] UNUSED)
 {
     struct virtual_machine vm = {0};
+    sfMusic *music = sfMusic_createFromFile("music.ogg");
 
+    if (music == NULL)
+        return (84);
     if (core_loader(&vm, argv, argc) == 84)
         return (84);
+    sfMusic_play(music);
     stdscr = initscr();
     keypad(stdscr,  TRUE);
     nodelay(stdscr, true);

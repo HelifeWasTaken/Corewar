@@ -68,7 +68,7 @@ GRAPH_SRC 	= 	$(SRC) \
 OBJ			?=
 
 ifeq ($(GRAPH),1)
-	CFLAGS 		+= 	$(NCURSES_FLAGS)
+	CFLAGS 		+= 	$(NCURSES_FLAGS) -lcsfml-audio
 	CFLAGS 		+= 	-DGRAPHIC
 	OBJ 		+= 	$(GRAPH_SRC:.c=.o)
 	CFLAGS 		+= 	-I ./src/graphical/include

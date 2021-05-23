@@ -69,8 +69,8 @@ static bool vm_write_champion_in_ram_process(struct virtual_machine *vm UNUSED,
     }
     vm->memory[(vm->champion[loader->i].pc.addr +
             *readed) % MEM_SIZE].byte = buf;
-    vm->memory[(vm->champion[loader->i].pc.addr +
-            *readed) % MEM_SIZE].player = vm->champion[loader->i].prog_number;
+    vm->memory[(vm->champion[loader->i].pc.addr + *readed) % MEM_SIZE].player =
+        vm->champion[loader->i].prog_number - 1;
     *readed += *ret;
     return (true);
 }
