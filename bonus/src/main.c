@@ -27,7 +27,7 @@ static int handle_input(int *y)
         case 113:
             return (1);
     }
-    if (*y < 0)
+    if (*y < 0 || *y * COLS > MEM_SIZE)
         *y = 0;
     return (0);
 }
