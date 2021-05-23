@@ -29,11 +29,9 @@ static bool vm_champion_header_reader(struct champion *champion,
 bool vm_champion_init(struct virtual_machine *vm, char const *file,
         const unsigned int i, unsigned int count)
 {
-    struct stat st = { 0 };
     struct champion_loader loader = { -1, i, count, file};
 
-    vm->champion[i] = DEFAULT_CHAMPION;
-    if (check_champion_stat_and_open(&st, &loader) == false)
+    if (check_champion_stat_and_open(&loader) == false)
         return (false);
     if (vm_champion_header_reader(&vm->champion[i], &loader) == false) {
         close(loader.fd);

@@ -19,9 +19,9 @@
     typedef struct virtual_machine vm_t;
 
     typedef struct program_counter {
-        unsigned int addr;
-        unsigned int next_addr;
-        unsigned int cycle_count;
+        int32_t addr;
+        int32_t next_addr;
+        int32_t cycle_count;
     } program_counter_t;
 
     //
@@ -34,6 +34,7 @@
     typedef struct champion {
         struct header_s header;
         struct program_counter pc;
+        int32_t prog_number;
     } champion_t;
 
     typedef struct memory {
@@ -81,16 +82,11 @@
             uint32_t live_count;
             BYTE last_live;
         };
+        struct {
+            int32_t dump;
+            int32_t cycle_before_dump;
+        };
     } virtual_machine_t;
-
-    #define DEFAULT_PROGRAM_COUNTER \
-        (struct program_counter){ 0x0, HEADER_SIZE + 1, 0 }
-
-    #define DEFAULT_CHAMPION \
-        (struct champion){ \
-            .header = { 0 }, \
-            .pc = DEFAULT_PROGRAM_COUNTER, \
-        }
 
     #define ACCESS_MEMORY(memory, idx) memory[(idx) % (MEM_SIZE)]
 
@@ -151,5 +147,12 @@
 
     int corewar_fork(virtual_machine_t *vm, proc_t *proc);
     int corewar_lfork(virtual_machine_t *vm, proc_t *proc);
+
+    bool get_opt(char **argv, vm_t *vm, char ***champion_tab);
+    int load_number_arg(char **av, int32_t *res, size_t *i, char *arg);
+    bool get_opt_champion(vm_t *vm, char ***champion_tab,
+            uint32_t *champion_index, char ***av);
+
+    int core_loader(vm_t *vm, char **argv, int argc);
 
 #endif

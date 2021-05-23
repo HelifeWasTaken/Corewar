@@ -14,12 +14,17 @@
 
 static void make_one_player_win(vm_t *vm)
 {
+    int player_last_living = 0;
+
 #ifdef GRAPHIC
     clear();
     endwin();
 #endif
+    for (; player_last_living < 2; player_last_living++)
+        if (vm->champion[player_last_living].prog_number == vm->last_live + 1)
+            break;
     eprintf("The player %d (%s) has won\n", vm->last_live + 1,
-            vm->champion[vm->last_live].header.prog_name);
+            vm->champion[player_last_living].header.prog_name);
     free_emalloc();
     exit(0);
 }
@@ -47,7 +52,6 @@ static void death_sentence(vm_t *vm)
         if (vm->proc->live == true)
             break;
         vm->proc = vm->proc->next;
-        FREE(current);
     }
     while (current) {
         next = current->next;
@@ -62,14 +66,19 @@ static void death_sentence(vm_t *vm)
 
 void live_process(virtual_machine_t *vm, proc_t *proc)
 {
+    int player_last_living UNUSED = 0;
+
     if (proc == NULL)
         return;
+    vm->last_live = proc->player;
 #ifndef GRAPHIC
+    for (; player_last_living < 2; player_last_living++)
+        if (vm->champion[player_last_living].prog_number == vm->last_live + 1)
+            break;
     eprintf("The player %d (%s) is alive.\n", proc->player + 1,
-            vm->champion[proc->player].header.prog_name);
+            vm->champion[player_last_living].header.prog_name);
 #endif
     proc->live = true;
-    vm->last_live = proc->player;
     vm->live_count++;
     if (vm->live_count >= vm->cycle_to_die) {
         vm->live_count = 0;

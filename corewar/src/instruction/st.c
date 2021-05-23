@@ -21,9 +21,8 @@ int st(virtual_machine_t *vm, proc_t *proc)
         for (uint8_t i = 0; i < REG_SIZE; i++)
             setmem(proc->pc.addr, index + i, vm->memory,
                     PLAYER_AND_BYTE(proc->player, v.vmem[i]));
-    } else {
+    } else
         ememcpy(proc->reg[param[0]], proc->reg[param[1]], REG_SIZE);
-    }
     return (1);
 }
 

@@ -36,6 +36,9 @@ MAIN			=	main.c
 
 SRC			= 	./src/vm_init.c \
 				./src/op.c \
+				./src/opts.c \
+				./src/opts2.c \
+				./src/corewar_loader.c \
 				./src/champion/champion_loader.c \
 				./src/champion/champion_open.c \
 				./src/champion/write_champion_in_ram.c \
