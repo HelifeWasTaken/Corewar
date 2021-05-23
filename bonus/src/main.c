@@ -58,6 +58,18 @@ static int corewar(struct virtual_machine *vm)
     return (0);
 }
 
+static void init(sfMusic *music)
+{
+    sfMusic_play(music);
+    sfMusic_setLoop(music, true);
+    stdscr = initscr();
+    noecho();
+    curs_set(0);
+    keypad(stdscr,  TRUE);
+    nodelay(stdscr, true);
+    starting_color();
+}
+
 int main(int argc UNUSED, char *argv[] UNUSED)
 {
     struct virtual_machine vm = {0};
@@ -65,13 +77,7 @@ int main(int argc UNUSED, char *argv[] UNUSED)
 
     if (music == NULL || core_loader(&vm, argv, argc) == 84)
         return (84);
-    sfMusic_play(music);
-    stdscr = initscr();
-    noecho();
-    curs_set(0);
-    keypad(stdscr,  TRUE);
-    nodelay(stdscr, true);
-    starting_color();
+    init(music);
     corewar(&vm);
     free_emalloc();
     sfMusic_destroy(music);

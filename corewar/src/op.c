@@ -29,7 +29,7 @@ const struct op_s OP_TAB[OP_COUNT] = {
     {"fork", 1, {T_DIR | T_IDX}, 12, 800, "fork"},
     {"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load"},
     {"lldi", 3, {T_REG | T_DIR | T_IND | T_IDX,
-        T_DIR | T_REG | T_IDX, T_REG}, 14, 50, "long load index"},
+                    T_DIR | T_REG | T_IDX, T_REG}, 14, 50, "long load index"},
     {"lfork", 1, {T_DIR | T_IDX}, 15, 1000, "long fork"},
     {"aff", 1, {T_REG}, 16, 2, "aff"}
 };

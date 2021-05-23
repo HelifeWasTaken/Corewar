@@ -14,7 +14,7 @@ bool get_instruction_regular(vm_t *vm, proc_t *proc)
     proc->pc.next_addr++;
     if (has_coding_byte(proc->instruction.opcode)) {
         proc->instruction.arg_count = count_args(getmem_byte(proc->pc.next_addr,
-            0, vm->memory), proc->instruction.args_type);
+                    0, vm->memory), proc->instruction.args_type);
         proc->pc.next_addr++;
         if (proc->instruction.arg_count != OP_TAB[opcode - 1].nbr_args)
             return (instruction_run_failed(proc));
