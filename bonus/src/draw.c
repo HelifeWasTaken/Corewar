@@ -8,8 +8,28 @@
 #include "corewar/bonus.h"
 #include <curses.h>
 
+
+static const char *WINDOWS_LOGO[] = {
+    "=======================================================",
+    "||                                                   ||",
+    "||   _       _--\"\"--_                                ||",
+    "||     \" --\"\"   |    |   .--.           |    ||      ||",
+    "||   \" .  |     |    |  |    |          |    ||      ||",
+    "||   _    |  _--\"\"--_|  |----| |.-  .-  |.-. ||      ||",
+    "||     \" --\"\"   |    |  |    | |   |  | |  |         ||",
+    "||   \" . _|     |    |  |    | |     -( |  |         ||",
+    "||   _    |  _--\"\"--_|             |  |              ||",
+    "||     \" --\"\"                       --               ||",
+    "||                                                   ||",
+    "======================================================",
+    NULL
+};
+
+
 void draw_hud(vm_t *vm)
 {
+    int y = ROW_HUD + 4;
+
     move(ROW_HUD + 1, 0);
     attron(COLOR_PAIR(10));
     printw("Last Live: [%d], Live count: [%d], Cycle to die: [%d],"
@@ -18,7 +38,8 @@ void draw_hud(vm_t *vm)
     for (unsigned int i = 0; i < vm->champion_count; i++)
         printw(" [ Player: [%d], Name: [%s] ]",
             i, vm->champion[i].header.prog_name);
-    printw("\n%s", WINDOWS_LOGO);
+    for (unsigned int i = 0; WINDOWS_LOGO[i]; i++)
+        mvprintw(y++, COLS / 2 - 27, "%s", WINDOWS_LOGO[i]);
 }
 
 static void draw_champion_internal(proc_t *proc, int y)
