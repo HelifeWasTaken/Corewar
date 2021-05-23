@@ -25,7 +25,7 @@ static void draw_champion_internal(proc_t *proc, int y)
 {
     int col = DEF_COL;
     int lign = 0;
-    unsigned int i = y * COLS;
+    int i = y * COLS;
 
     if (i > proc->pc.addr)
         return;

@@ -57,20 +57,6 @@ static int corewar(struct virtual_machine *vm)
     return (0);
 }
 
-static void dump_memory(struct memory *mem)
-{
-    int col = 0;
-
-    eprintf("====== START ======\n");
-    eprintf("\n0x%02x == ", 0);
-    for (int i = 0; i < MEM_SIZE; i++) {
-        eprintf("[%02x]", mem[i].byte);
-        if (++col >= 40)
-            eprintf("\n0x%02x == ", i);
-    }
-    eprintf("======= END ======\n");
-}
-
 int main(int argc UNUSED, char *argv[] UNUSED)
 {
     struct virtual_machine vm = {0};

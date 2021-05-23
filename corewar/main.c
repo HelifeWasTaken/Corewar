@@ -54,7 +54,7 @@ static void dump_memory(struct memory *mem)
 
 static void corewar(vm_t *vm)
 {
-    vm->cycle_before_dump = 0;
+    vm->cycle_before_dump = vm->dump == -1 ? -1 : 0;
     while (1) {
         tick_procs(vm);
         if (vm->cycle_before_dump > 0) {

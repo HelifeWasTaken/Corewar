@@ -32,7 +32,10 @@ static bool end_get_opt_champion(char ***av, size_t i,
         return (false);
     }
     eappend_tab(champion_tab, (*av)[i]);
-    *av += i ? i : 1;
+    if (i)
+        *av += i;
+    else
+        *av += 1;
     (*champion_index)++;
     return (true);
 }

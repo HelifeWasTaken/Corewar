@@ -16,7 +16,7 @@ bool vm_init(struct virtual_machine *vm, char **champion_files)
     for (unsigned int i = 0; i < count; i++) {
         if (vm_champion_init(vm, champion_files[i], i, count) == false)
             return (false);
-        vm->champion_count++;
     }
+    vm->champion_count = count;
     return (true);
 }
