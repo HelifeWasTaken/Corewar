@@ -13,8 +13,8 @@ bool parse_label_asm(parser_t *parser, char *buffer, instruction_t *ins,
     size_t i = parser->col;
 
     if (!is_token(buffer[i], LABEL_CHARS)) {
-            efprintf(stderr, "Invalid Label token at %d:%d\n", parser->line, i);
-            return (false);
+        efprintf(stderr, "Invalid Label token at %d:%d\n", parser->line, i);
+        return (false);
     }
     for (; buffer[i] && !is_token(buffer[i], ", #\t"); i++) {
         if (!is_token(buffer[i], LABEL_CHARS)) {

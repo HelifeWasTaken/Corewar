@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <SFML/Audio.h>
 
-static void handle_input(int *y)
+static int handle_input(int *y)
 {
     int ch = getch();
 
@@ -25,11 +25,11 @@ static void handle_input(int *y)
             (*y)++;
             break;
         case 113:
-            free_emalloc();
-            exit(0);
+            return (1);
     }
-    if (*y < 0)
+    if (*y < 0 || *y * COLS + COLS > MEM_SIZE)
         *y = 0;
+    return (0);
 }
 
 static int corewar(struct virtual_machine *vm)
@@ -48,7 +48,8 @@ static int corewar(struct virtual_machine *vm)
             continue;
         } else
             vm->cycle_before_dump = vm->dump;
-        handle_input(&y);
+        if (handle_input(&y) == 1)
+            break;
         draw_map(vm, y);
         draw_champion(vm, y);
         draw_hud(vm);
@@ -57,20 +58,30 @@ static int corewar(struct virtual_machine *vm)
     return (0);
 }
 
+static void init(sfMusic *music)
+{
+    sfMusic_play(music);
+    sfMusic_setLoop(music, true);
+    stdscr = initscr();
+    noecho();
+    curs_set(0);
+    keypad(stdscr,  TRUE);
+    nodelay(stdscr, true);
+    starting_color();
+}
+
 int main(int argc UNUSED, char *argv[] UNUSED)
 {
     struct virtual_machine vm = {0};
     sfMusic *music = sfMusic_createFromFile("music.ogg");
 
-    if (music == NULL)
+    if (music == NULL || core_loader(&vm, argv, argc) == 84)
         return (84);
-    if (core_loader(&vm, argv, argc) == 84)
-        return (84);
-    sfMusic_play(music);
-    stdscr = initscr();
-    keypad(stdscr,  TRUE);
-    nodelay(stdscr, true);
-    starting_color();
+    init(music);
     corewar(&vm);
+    free_emalloc();
+    sfMusic_destroy(music);
+    endwin();
+    refresh();
     return (EXIT_SUCCESS);
 }

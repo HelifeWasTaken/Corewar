@@ -19,6 +19,7 @@ static void make_one_player_win(vm_t *vm)
 #ifdef GRAPHIC
     clear();
     endwin();
+    refresh();
 #endif
     for (; player_last_living < 2; player_last_living++)
         if (vm->champion[player_last_living].prog_number == vm->last_live + 1)

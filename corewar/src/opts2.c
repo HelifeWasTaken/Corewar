@@ -49,10 +49,12 @@ bool get_opt_champion(vm_t *vm, char ***champion_tab,
 
     while ((*av)[i] && (*av)[i][0] == '-') {
         if ((ret[0] = load_number_arg(*av,
-                    &vm->champion[*champion_index].prog_number, &i, "-n")) == 2)
+                        &vm->champion[*champion_index].prog_number,
+                        &i, "-n")) == 2)
             return (false);
         if ((ret[1] = load_number_arg(*av,
-                    &vm->champion[*champion_index].pc.addr, &i, "-a")) == 2)
+                        &vm->champion[*champion_index].pc.addr,
+                        &i, "-a")) == 2)
             return (false);
         if ((ret[2] = check_invalid_args_opt_champion(av, i, ret)) == 2)
             return (false);

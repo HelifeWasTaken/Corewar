@@ -11,7 +11,7 @@ static bool vm_champion_header_reader(struct champion *champion,
         struct champion_loader *loader)
 {
     if (read_memory_byte(loader->fd, &champion->header,
-        sizeof(struct header_s)) == false) {
+                sizeof(struct header_s)) == false) {
         efprintf(stderr, "%s: Header has an invalid checksum\n", loader->file);
         return (false);
     }

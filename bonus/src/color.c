@@ -11,7 +11,6 @@
 #include <curses.h>
 #include <stdlib.h>
 
-
 int get_color_player(int8_t player)
 {
     switch (player) {
@@ -54,5 +53,5 @@ void starting_color(void)
     init_pair(7, COLOR_BLACK, 12);
     init_pair(8, COLOR_BLACK, 11);
     init_pair(9, COLOR_BLACK, 13);
-    init_pair(10, COLOR_BLACK, COLOR_WHITE);
+    init_pair(10, COLOR_WHITE, COLOR_BLACK);
 }

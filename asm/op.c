@@ -23,13 +23,13 @@ const struct op_s OP_TAB[OP_COUNT] = {
         "ou (xor  r1, r2, r3   r1^r2 -> r3"},
     {"zjmp", 1, {T_DIR | T_IDX}, 9, 20, "jump if zero"},
     {"ldi", 3, {T_REG | T_DIR | T_IND | T_IDX,
-        T_DIR | T_REG | T_IDX, T_REG}, 10, 25, "load index"},
+                   T_DIR | T_REG | T_IDX, T_REG}, 10, 25, "load index"},
     {"sti", 3, {T_REG, T_REG | T_DIR | T_IND | T_IDX,
-        T_DIR | T_REG | T_IDX}, 11, 25, "store index"},
+                   T_DIR | T_REG | T_IDX}, 11, 25, "store index"},
     {"fork", 1, {T_DIR | T_IDX}, 12, 800, "fork"},
     {"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load"},
     {"lldi", 3, {T_REG | T_DIR | T_IND | T_IDX,
-        T_DIR | T_REG | T_IDX, T_REG}, 14, 50, "long load index"},
+                    T_DIR | T_REG | T_IDX, T_REG}, 14, 50, "long load index"},
     {"lfork", 1, {T_DIR | T_IDX}, 15, 1000, "long fork"},
     {"aff", 1, {T_REG}, 16, 2, "aff"}
 };
