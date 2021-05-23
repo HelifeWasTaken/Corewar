@@ -32,37 +32,55 @@ static void handle_input(int *y)
         *y = 0;
 }
 
-static int loop(struct virtual_machine *vm)
+static int corewar(struct virtual_machine *vm)
 {
     int y = 0;
     clock_t start = clock();
 
+    vm->cycle_before_dump = vm->dump;
     while (42) {
         tick_procs(vm);
         if (((double)start/ (double)CLOCKS_PER_SEC) > 1) {
             clear();
-            printf("je suis la\n");
         }
+        if (vm->cycle_before_dump > 0) {
+            vm->cycle_before_dump--;
+            continue;
+        } else
+            vm->cycle_before_dump = vm->dump;
         handle_input(&y);
         draw_map(vm, y);
-        find_champion(vm, y);
+        draw_champion(vm, y);
+        draw_hud(vm);
         refresh();
     }
     return (0);
 }
 
-int main(int ac, char **av)
+static void dump_memory(struct memory *mem)
 {
-    virtual_machine_t vm = {0};
+    int col = 0;
 
-    if (ac <= 1)
+    eprintf("====== START ======\n");
+    eprintf("\n0x%02x == ", 0);
+    for (int i = 0; i < MEM_SIZE; i++) {
+        eprintf("[%02x]", mem[i].byte);
+        if (++col >= 40)
+            eprintf("\n0x%02x == ", i);
+    }
+    eprintf("======= END ======\n");
+}
+
+int main(int argc UNUSED, char *argv[] UNUSED)
+{
+    struct virtual_machine vm = {0};
+
+    if (core_loader(&vm, argv, argc) == 84)
         return (84);
-    if (vm_init(&vm, av + 1) == false)
-        return (85);
     stdscr = initscr();
     keypad(stdscr,  TRUE);
     nodelay(stdscr, true);
     starting_color();
-    loop(&vm);
-    return (0);
+    corewar(&vm);
+    return (EXIT_SUCCESS);
 }

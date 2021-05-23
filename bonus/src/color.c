@@ -11,6 +11,7 @@
 #include <curses.h>
 #include <stdlib.h>
 
+
 int get_color_player(int8_t player)
 {
     switch (player) {
@@ -41,33 +42,6 @@ int get_color_champion(int8_t player)
     return (5);
 }
 
-static void print_champion(proc_t *proc, int y)
-{
-    int col = 0;
-    int lign = 0;
-    unsigned int i = y * COLS;
-
-    if (i > proc->pc.addr)
-        return;
-    for (; i != proc->pc.addr; i++) {
-        attron(COLOR_PAIR(get_color_champion(proc->player)));
-        col++;
-        if (3 + (col * 3) >= COLS - 3) {
-            col = 0;
-            lign++;
-        }
-    }
-    if (i == proc->pc.addr)
-        mvprintw((2 + lign), 3 + (col * 3), "XX");
-}
-
-void find_champion(virtual_machine_t *vm, int y)
-{
-    for (proc_t *proc = vm->proc; proc != NULL; proc = proc->next) {
-        print_champion(proc, y);
-    }
-}
-
 void starting_color(void)
 {
     start_color();
@@ -80,4 +54,5 @@ void starting_color(void)
     init_pair(7, COLOR_BLACK, 12);
     init_pair(8, COLOR_BLACK, 11);
     init_pair(9, COLOR_BLACK, 13);
+    init_pair(10, COLOR_BLACK, COLOR_WHITE);
 }
