@@ -5,7 +5,7 @@ One of the Epitech's Mythic Projects
 
 ## Results
 
-- 95% On the assembler
+- 97% On the assembler
 
 - 100% On the virtual machine
 
