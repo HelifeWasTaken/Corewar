@@ -72,10 +72,10 @@ void live_process(virtual_machine_t *vm, proc_t *proc)
     if (proc == NULL)
         return;
     vm->last_live = proc->player;
-#ifndef GRAPHIC
     for (; player_last_living < 2; player_last_living++)
         if (vm->champion[player_last_living].prog_number == vm->last_live + 1)
             break;
+#ifndef GRAPHIC
     eprintf("The player %d (%s) is alive.\n", proc->player + 1,
             vm->champion[player_last_living].header.prog_name);
 #endif
