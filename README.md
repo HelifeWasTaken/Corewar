@@ -9,11 +9,25 @@ One of the Epitech's Mythic Projects
 
 - 100% On the virtual machine
 
-The explanations of the project have been taken from [rizky/corewar](https://github.com/rizky/corewar) 
+## Build
+
+Dependencies:
+```
+Base project:
+make, gcc
+
+With the graphical environnement:
+g++, sfml, csfml, ncurses
+```
+If you only want the corewar simulator just type `make`
+
+If you want the graphical environnement type `GRAPH=1 make re`
+
+The explanations of the project have been taken from [rizky/corewar](https://github.com/rizky/corewar)
 ## The arena
 Matches are played by a **V**irtual **M**achine featuring:
-  - A circular memory buffer of **4096** bytes  
-  - A CPU with: 
+  - A circular memory buffer of **4096** bytes
+  - A CPU with:
       - An instruction set of 16 operations
       - 16 32bit registers labelled from `r1` to `r16`
       - a **z**ero **f**lag (`zf`) whose state depends on the result of some instructions
@@ -25,8 +39,8 @@ Each process has:
   - Its own `zf` value
 
 ## Match setup
-Each player is assigned a unique 32bit **identifier**.  
-Champions are loaded in memory at equally spaced offsets.  
+Each player is assigned a unique 32bit **identifier**.
+Champions are loaded in memory at equally spaced offsets.
 Each champion is assigned a starting **process** which has:
   - Its `pc` set to the location of the champion's first byte
   - Its `zf` set to `0`
@@ -34,8 +48,8 @@ Each champion is assigned a starting **process** which has:
   - All of its other registers set to `0`
 
 ## Execution
-The game is *turn*-based.  
-Turns are called **cycle**s and correspond to a pass of the process scheduler.  
+The game is *turn*-based.
+Turns are called **cycle**s and correspond to a pass of the process scheduler.
 Every cycle, the scheduler gives a fixed amount of CPU time to each process sequentially, in the reverse order that they were spawned.
 
 Running processes can be in either one of two states:
@@ -43,7 +57,7 @@ Running processes can be in either one of two states:
   - `Executing` an instruction: Waiting for a sufficient amount of CPU time to finish its execution
 
 When an `Idle` process is given a cycle worth of CPU time, it attempts to decode the byte pointed by its `pc`:
-  - If the byte is a valid instruction **opcode**, it starts `Executing` it 
+  - If the byte is a valid instruction **opcode**, it starts `Executing` it
   - Otherwise it stays `Idle` and the `pc` is moved to the next byte in memory
 
 When an `Executing` process is given its last required cycle worth of CPU time, it attempts to decode the rest of the instruction pointed by its `pc`:
@@ -51,22 +65,22 @@ When an `Executing` process is given its last required cycle worth of CPU time, 
   - Otherwise it goes back to an `Idle` state and the `pc` is moved to the next byte in memory
 
 ## Win condition
-The VM periodically performs a **live-check**.  
-The number of cycles before a live-check is determined by a `check interval` value which is initialized to `1536`.  
+The VM periodically performs a **live-check**.
+The number of cycles before a live-check is determined by a `check interval` value which is initialized to `1536`.
 During a live-check:
   - Every process that didn't execute at least one `live` instruction since the last live-check is **killed**
   - The `check interval` is decreased by `50` if either:
       - The total number of `live`s among all the processes is `≥ 21`
       - `10` consecutive live-checks had a number of `live`s `< 21`
 
-The match ends when all processes are killed.  
-The winner is the last player who has been reported alive. 
+The match ends when all processes are killed.
+The winner is the last player who has been reported alive.
 
 ⚠ Processes can report any player to be alive, not exclusively their champion's player. See the `live` instruction for more information.
 
 ## Instruction set
-The VM supports 16 instructions.  
-Instructions take between **1** and **3** parameters.  
+The VM supports 16 instructions.
+Instructions take between **1** and **3** parameters.
 Parameters can be one of three types:
  - `Register`: one of the 16 registers available
  - `Direct`: an immediate numeric value
@@ -74,8 +88,8 @@ Parameters can be one of three types:
 
 ⚠ For most instructions that perform addressing, the *reach* is limited, in which case the `pc` offset is wrapped within a `(-512, 512)` ring using a modulo operation. The only three instructions that have unlimited reach are referred to as **long** instructions.
 
-Every instruction has an `opcode` and executes in a certain number of cycles.  
-Some instructions can take different types of parameters and therefore need an additional **p**arameter **c**ode **b**yte (`pcb`) when encoded (more details in the encoding section).  
+Every instruction has an `opcode` and executes in a certain number of cycles.
+Some instructions can take different types of parameters and therefore need an additional **p**arameter **c**ode **b**yte (`pcb`) when encoded (more details in the encoding section).
 Some instructions have 16bit `Direct` values instead of 32bit.
 
 The table below summarizes all those characterics for every instruction:
@@ -197,8 +211,8 @@ A champion's program consist of:
  - A description
  - A sequence of instructions
 
-The champion's name and description are set using the `.name` and `.comment` directives respectively.  
-Instructions and directives are each placed on a single line, empty lines are allowed, token spacing works with any number of whitespaces and you can start line comments by using the `#` character  
+The champion's name and description are set using the `.name` and `.comment` directives respectively.
+Instructions and directives are each placed on a single line, empty lines are allowed, token spacing works with any number of whitespaces and you can start line comments by using the `#` character
 To create a champion called "John Cena", you could for instance start your program by writing:
 ```
 .name    "John Cena"          # Champion's name
@@ -215,9 +229,9 @@ An instruction that *xor*s the memory value at offset 42 with the number 1337 an
 xor  42, %1337, r12    # r12 = mem[pc+42] ^ 1337
 ```
 
-Instructions can be optionally preceded by **labels**.  
-Labels are references to locations in your code. They can be used in parameters to help with offset computation and code readability.  
-A label is declared as a colon (`:`) **suffixed** alphanumeric identifier, and referenced with its identifier **prefixed** by a colon.  
+Instructions can be optionally preceded by **labels**.
+Labels are references to locations in your code. They can be used in parameters to help with offset computation and code readability.
+A label is declared as a colon (`:`) **suffixed** alphanumeric identifier, and referenced with its identifier **prefixed** by a colon.
 An infinite live loop could look like:
 ```
 loop: live %1         # Stay alive
