@@ -7,7 +7,7 @@ One of the Epitech's Mythic Projects
 
 - 97% On the assembler
 
-- 100% On the virtual machine
+- 70% On the virtual machine
 
 ## Build
 
